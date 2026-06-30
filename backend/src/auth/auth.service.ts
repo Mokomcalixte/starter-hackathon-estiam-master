@@ -10,20 +10,41 @@ export class AuthService {
     private readonly jwt: JwtService,
   ) {}
 
-  // Vérifie les identifiants puis émet un JWT court qui identifiera l'utilisateur
-  // sur toutes les requêtes suivantes.
-  async login(username: string, password: string) {
-    const user = await this.users.findByUsername(username)
+  async login(email: string, password: string) {
+    const user = await this.users.findByEmail(email)
+
     if (!user || !(await argon2.verify(user.passwordHash, password))) {
-      throw new UnauthorizedException('Identifiants invalides')
+      throw new UnauthorizedException('Email ou mot de passe invalide')
     }
 
-    const payload = { sub: user.id, username: user.username, role: user.role }
+    const payload = { sub: user.id, email: user.email, role: user.role }
     const accessToken = await this.jwt.signAsync(payload)
 
     return {
       accessToken,
-      user: { id: user.id, username: user.username, role: user.role },
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
+    }
+  }
+
+  async register(fullName: string, email: string, password: string) {
+    const user = await this.users.create(fullName, email, password)
+
+    const payload = { sub: user.id, email: user.email, role: user.role }
+    const accessToken = await this.jwt.signAsync(payload)
+
+    return {
+      accessToken,
+      user: {
+        id: user.id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+      },
     }
   }
 }

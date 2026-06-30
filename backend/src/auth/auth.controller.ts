@@ -15,17 +15,50 @@ import { AuthGuard } from './auth.guard'
 export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
-  // POST /auth/login  { username, password }  ->  { accessToken, user }
-  @Post('login')
-  login(@Body() body: { username?: string; password?: string }) {
-    if (!body?.username || !body?.password) {
-      throw new UnauthorizedException('username et password requis')
+  // POST /auth/register
+  @Post('register')
+  register(
+    @Body()
+    body: {
+      fullName?: string
+      email?: string
+      password?: string
+    },
+  ) {
+    if (!body?.fullName || !body?.email || !body?.password) {
+      throw new UnauthorizedException(
+        'fullName, email et password sont requis',
+      )
     }
-    return this.auth.login(body.username, body.password)
+
+    return this.auth.register(
+      body.fullName,
+      body.email,
+      body.password,
+    )
   }
 
-  // GET /auth/me  (route protégée d'exemple) -> l'utilisateur courant.
-  // Montre comment lire l'identité une fois le token vérifié par le guard.
+  // POST /auth/login
+  @Post('login')
+  login(
+    @Body()
+    body: {
+      email?: string
+      password?: string
+    },
+  ) {
+    if (!body?.email || !body?.password) {
+      throw new UnauthorizedException(
+        'email et password sont requis',
+      )
+    }
+
+    return this.auth.login(
+      body.email,
+      body.password,
+    )
+  }
+
   @UseGuards(AuthGuard)
   @Get('me')
   me(@Req() req: Request) {

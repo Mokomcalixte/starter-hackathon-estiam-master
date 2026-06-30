@@ -1,42 +1,67 @@
-import { Injectable, OnModuleInit } from '@nestjs/common'
+import { ConflictException, Injectable, OnModuleInit } from '@nestjs/common'
 import * as argon2 from 'argon2'
+import sqlite3 from 'sqlite3'
+import { open, Database } from 'sqlite'
 
 export type Role = 'admin' | 'member'
 
 export interface User {
   id: number
-  username: string
+  fullName: string
+  email: string
   role: Role
   passwordHash: string
 }
 
-// ⚠️ Comptes de DÉMO. Les mots de passe en clair ne sont là QUE pour le hackathon :
-//    en vrai, on stocke uniquement les hash (pas de mot de passe en clair nulle part).
-//    Ceci est un point de départ — ajoutez une vraie inscription / base de données si
-//    vous le souhaitez (ce n'est pas l'objet de la note).
-const SEED: Array<{ username: string; password: string; role: Role }> = [
-  { username: 'alice', password: 'password', role: 'admin' },
-  { username: 'bob', password: 'password', role: 'member' },
-  { username: 'carol', password: 'password', role: 'member' },
-]
-
 @Injectable()
 export class UsersService implements OnModuleInit {
-  private users: User[] = []
+  private db: Database | null = null
 
-  // Au démarrage, on hash les mots de passe de démo avec Argon2 (comme le produit réel).
   async onModuleInit(): Promise<void> {
-    this.users = await Promise.all(
-      SEED.map(async (u, i) => ({
-        id: i + 1,
-        username: u.username,
-        role: u.role,
-        passwordHash: await argon2.hash(u.password),
-      })),
-    )
+    this.db = await open({
+      filename: './database/hackathon.db',
+      driver: sqlite3.Database,
+    })
+
+    await this.db.exec(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        fullName TEXT NOT NULL,
+        email TEXT NOT NULL UNIQUE,
+        passwordHash TEXT NOT NULL,
+        role TEXT DEFAULT 'member',
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      );
+    `)
   }
 
-  findByUsername(username: string): Promise<User | undefined> {
-    return Promise.resolve(this.users.find((u) => u.username === username))
+  async findByEmail(email: string): Promise<User | undefined> {
+    return this.db?.get<User>('SELECT * FROM users WHERE email = ?', email)
+  }
+
+  async create(fullName: string, email: string, password: string): Promise<User> {
+    const existingUser = await this.findByEmail(email)
+
+    if (existingUser) {
+      throw new ConflictException('Cet email existe déjà')
+    }
+
+    const passwordHash = await argon2.hash(password)
+
+    await this.db?.run(
+      'INSERT INTO users (fullName, email, passwordHash, role) VALUES (?, ?, ?, ?)',
+      fullName,
+      email,
+      passwordHash,
+      'member',
+    )
+
+    const newUser = await this.findByEmail(email)
+
+    if (!newUser) {
+      throw new Error('Erreur lors de la création du compte')
+    }
+
+    return newUser
   }
 }
