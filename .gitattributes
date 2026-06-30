@@ -1,0 +1,18 @@
+# Normalisation automatique des fins de ligne
+* text=auto
+
+# Scripts shell : TOUJOURS en LF (sinon bash casse sous Windows / WSL / Git Bash :
+#   « $'\r': command not found »). Indispensable pour scripts/prefetch.sh.
+*.sh text eol=lf
+
+# Scripts PowerShell : CRLF (convention Windows)
+*.ps1 text eol=crlf
+
+# Binaires : aucune conversion de fins de ligne
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.mp4 binary
