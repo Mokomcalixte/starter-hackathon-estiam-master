@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copie des fichiers de dépendances
+COPY package*.json ./
+
+# Installation des dépendances
+RUN npm install
+
+# Le code sera monté via un volume pour le hot-reload
+COPY . .
+
+# Exposition du port par défaut de Vite
+EXPOSE 5173
+
+# Configuration de Vite pour écouter sur toutes les interfaces (nécessaire dans Docker)
+# et utiliser le polling si nécessaire (souvent requis sur Windows/WSL)
+ENV CHOKIDAR_USEPOLLING=true
+
+# Lancement de Vite en exposant l'hôte
+CMD ["npm", "run", "dev", "--", "--host"]

@@ -1,0 +1,19 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copie des fichiers de dépendances
+COPY package*.json ./
+
+# Installation des dépendances
+RUN npm install
+
+# Le code sera monté via un volume pour le hot-reload,
+# mais on le copie au cas où on voudrait builder l'image
+COPY . .
+
+# Exposition du port par défaut de NestJS
+EXPOSE 3000
+
+# Commande de démarrage en mode développement
+CMD ["npm", "run", "start:dev"]
