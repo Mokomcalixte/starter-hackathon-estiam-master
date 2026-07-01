@@ -42,12 +42,22 @@ function engineErrorMessage(payload) {
   if (!payload) return "Analyse IA impossible";
   if (typeof payload === "string") return payload;
 
+  const detail =
+    payload?.detail ||
+    payload?.payload?.detail ||
+    payload?.message?.payload?.detail ||
+    payload?.response?.payload?.detail;
+
+  if (typeof detail === "string") return detail;
+
   const response = payload.message || payload.error || payload;
   if (typeof response === "string") return response;
 
   const nestedMessage =
-    response?.message ||
     response?.payload?.detail ||
+    response?.detail ||
+    response?.message?.payload?.detail ||
+    response?.message ||
     response?.payload?.message ||
     response?.cause;
 
@@ -82,6 +92,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   const [engineMetadata, setEngineMetadata] = useState(() =>
     parseEngineMetadata(session)
   );
+  const [engineError, setEngineError] = useState("");
   const [subtitleLang, setSubtitleLang] = useState("");
   const [showSubtitles, setShowSubtitles] = useState(true);
   const [currentSubtitle, setCurrentSubtitle] = useState("");
@@ -115,6 +126,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
 
     setEngineMetadata(metadata);
     setEngineStatus(session?.engineStatus || (metadata ? "ready" : "idle"));
+    setEngineError("");
     setSubtitleLang(metadata?.language || "");
     setSessionStatus(session?.status || "created");
   }, [session]);
@@ -431,6 +443,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
 
     try {
       setEngineStatus("analyzing");
+      setEngineError("");
 
       const res = await fetch(`${API}/sessions/${session.code}/analyze`, {
         method: "POST",
@@ -461,6 +474,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
       });
     } catch (error) {
       setEngineStatus("failed");
+      setEngineError(error.message);
       alert(error.message);
     }
   }
@@ -703,7 +717,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
             ) : (
               <p>
                 {engineStatus === "failed"
-                  ? "L'analyse a échoué. Vérifiez que l'engine tourne et que le disque a assez d'espace."
+                  ? engineError || "L'analyse a échoué. Vérifiez que l'engine tourne et que le disque a assez d'espace."
                   : "Lancez l'analyse pour générer transcription, traductions et chapitres."}
               </p>
             )}
