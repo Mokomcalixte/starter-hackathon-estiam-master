@@ -23,6 +23,7 @@ import json
 import uuid
 import tempfile
 import shutil
+import errno
 
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
@@ -37,7 +38,10 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"],
 MODEL_SIZE = os.environ.get("WHISPER_MODEL", "small")
 TARGET_LANGS = ("en", "es", "zh")
 LIBRARY_FILE = "library.json"
+TMP_DIR = os.environ.get("ENGINE_TMP_DIR", os.path.join(os.getcwd(), "tmp"))
 LIBRARY = {}  # vid -> metadata complet
+
+os.makedirs(TMP_DIR, exist_ok=True)
 
 
 def load_library():
@@ -68,12 +72,14 @@ async def index(file: UploadFile = File(...)):
         raise HTTPException(400, "Aucun fichier recu.")
 
     suffix = os.path.splitext(file.filename)[1] or ".mp4"
-    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix)
+    tmp = tempfile.NamedTemporaryFile(delete=False, suffix=suffix, dir=TMP_DIR)
+    wav_path = tmp.name + ".wav"
+
     try:
         shutil.copyfileobj(file.file, tmp)
         tmp.close()
 
-        wav = si.extract_audio(tmp.name, tmp.name + ".wav")
+        wav = si.extract_audio(tmp.name, wav_path)
         language, segments, transcript = si.transcribe(wav, MODEL_SIZE)
         meta = si.build_metadata(file.filename, language, segments,
                                  transcript, si._duration(tmp.name), TARGET_LANGS)
@@ -83,12 +89,28 @@ async def index(file: UploadFile = File(...)):
         LIBRARY[vid] = meta
         save_library()
         return JSONResponse(meta)
+    except OSError as e:
+        if e.errno == errno.ENOSPC:
+            raise HTTPException(
+                507,
+                "Espace disque insuffisant pour copier/analyser la video. "
+                "Liberez de l'espace sur le disque ou utilisez une video plus petite.",
+            )
+        raise HTTPException(500, f"Erreur fichier : {e}")
     except Exception as e:
         raise HTTPException(500, f"Erreur pipeline : {e}")
     finally:
-        for p in (tmp.name, tmp.name + ".wav"):
-            if os.path.exists(p):
-                os.remove(p)
+        try:
+            tmp.close()
+        except Exception:
+            pass
+
+        for p in (tmp.name, wav_path):
+            try:
+                if os.path.exists(p):
+                    os.remove(p)
+            except PermissionError:
+                pass
 
 
 @app.get("/videos")

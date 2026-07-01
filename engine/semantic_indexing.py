@@ -16,8 +16,24 @@ Aucune clé API payante. Modèles légers (CPU).
 """
 
 from __future__ import annotations
-import json, subprocess, re, datetime, os
+import json, subprocess, re, datetime, os, shutil
 import numpy as np
+
+
+def _ffmpeg_exe():
+    ffmpeg = shutil.which("ffmpeg")
+    if ffmpeg:
+        return ffmpeg
+
+    try:
+        import imageio_ffmpeg
+
+        return imageio_ffmpeg.get_ffmpeg_exe()
+    except Exception as exc:
+        raise RuntimeError(
+            "ffmpeg est introuvable. Installez ffmpeg ou la dependance "
+            "Python imageio-ffmpeg."
+        ) from exc
 
 # ----------------------------------------------------------------------
 # 1. Extraction audio (ffmpeg)
@@ -25,7 +41,7 @@ import numpy as np
 def extract_audio(video_path: str, wav_path: str = "audio.wav") -> str:
     """Isole la piste audio en wav 16 kHz mono (format attendu par Whisper)."""
     subprocess.run(
-        ["ffmpeg", "-y", "-i", video_path, "-vn", "-ac", "1", "-ar", "16000",
+        [_ffmpeg_exe(), "-y", "-i", video_path, "-vn", "-ac", "1", "-ar", "16000",
          wav_path, "-loglevel", "error"],
         check=True,
     )
@@ -292,12 +308,22 @@ def build_metadata(video_path, language, segments, transcript,
 
 
 def _duration(path):
-    out = subprocess.run(
-        ["ffprobe", "-v", "error", "-show_entries", "format=duration",
-         "-of", "csv=p=0", path], capture_output=True, text=True)
+    ffprobe = shutil.which("ffprobe")
+    if ffprobe:
+        out = subprocess.run(
+            [ffprobe, "-v", "error", "-show_entries", "format=duration",
+             "-of", "csv=p=0", path], capture_output=True, text=True)
+        try:
+            return float(out.stdout.strip())
+        except ValueError:
+            return 0.0
+
     try:
-        return float(out.stdout.strip())
-    except ValueError:
+        import imageio_ffmpeg
+
+        _, duration = imageio_ffmpeg.count_frames_and_secs(path)
+        return float(duration)
+    except Exception:
         return 0.0
 
 

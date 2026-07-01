@@ -5,9 +5,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { User } from './user.entity';
 import { VideoGateway } from './video.gateway';
+import { SecurityModule } from './security/security.module';
+import { SessionsModule } from './sessions/sessions.module';
+import { EngineModule } from './engine/engine.module';
 
 // Le mot-clé @Module déclare "l'enveloppe" principale de ton application
 @Module({
+
   // "imports" sert à charger des outils externes ou d'autres modules
   imports: [
     // Ici, on configure la connexion à la base de données SQLite
@@ -25,6 +29,8 @@ import { VideoGateway } from './video.gateway';
     AuthModule,
   ],
   // "controllers" gère les routes classiques (les requêtes HTTP comme GET ou POST)
+
+  imports: [AuthModule, SecurityModule, SessionsModule, EngineModule],
   controllers: [AppController],
   // "providers" regroupe les services métiers et tes WebSockets (la Gateway)
   providers: [AppService, VideoGateway],

@@ -7,12 +7,34 @@ import CreateSession from "./pages/CreateSession";
 import WatchRoom from "./pages/WatchRoom";
 import "./styles/auth.css";
 
+const CURRENT_SESSION_KEY = "teamstream_current_session";
+
+function getStoredSession() {
+  const storedSession = localStorage.getItem(CURRENT_SESSION_KEY);
+
+  if (!storedSession) {
+    return null;
+  }
+
+  try {
+    return JSON.parse(storedSession);
+  } catch {
+    localStorage.removeItem(CURRENT_SESSION_KEY);
+    return null;
+  }
+}
+
 function App() {
   const [page, setPage] = useState("login");
-  const [session, setSession] = useState(null);
+  const [session, setSession] = useState(getStoredSession);
 
   const connected = Boolean(getToken());
   const currentUser = getUser();
+
+  function saveSession(nextSession) {
+    setSession(nextSession);
+    localStorage.setItem(CURRENT_SESSION_KEY, JSON.stringify(nextSession));
+  }
 
   async function handleJoinSession(code) {
     try {
@@ -25,12 +47,14 @@ function App() {
 
       const foundSession = await res.json();
 
-      setSession({
+      saveSession({
         ...foundSession,
         videoUrl: `http://localhost:3000/uploads/${foundSession.videoPath}`,
-        presenterName: "Présentateur",
+        presenterName: foundSession.presenterName || "Présentateur",
         currentUserName: currentUser?.fullName || "Participant",
-        isPresenter: false,
+        isPresenter:
+          foundSession.createdBy === currentUser?.id ||
+          foundSession.presenterName === currentUser?.fullName,
       });
 
       setPage("watch");
@@ -43,10 +67,12 @@ function App() {
     return (
       <CreateSession
         onCancel={() => setPage("dashboard")}
+        currentUser={currentUser}
         onCreate={(newSession) => {
-          setSession({
+          saveSession({
             ...newSession,
-            presenterName: currentUser?.fullName || "Présentateur",
+            presenterName:
+              newSession.presenterName || currentUser?.fullName || "Présentateur",
             currentUserName: currentUser?.fullName || "Vous",
             isPresenter: true,
           });
@@ -58,7 +84,13 @@ function App() {
   }
 
   if (connected && page === "watch") {
-    return <WatchRoom session={session} onBack={() => setPage("dashboard")} />;
+    return (
+      <WatchRoom
+        session={session}
+        onBack={() => setPage("dashboard")}
+        onSessionUpdate={saveSession}
+      />
+    );
   }
 
   if (connected) {

@@ -23,6 +23,20 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - ENGINE_URL=http://engine:8000
+    depends_on:
+      - engine
+
+  engine:
+    build:
+      context: ./engine
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./engine:/app
+    environment:
+      - WHISPER_MODEL=tiny
 
   frontend:
     build:

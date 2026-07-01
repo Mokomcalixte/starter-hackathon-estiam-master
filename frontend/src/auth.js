@@ -55,6 +55,7 @@ export async function login(email, password) {
 export function logout() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
+  localStorage.removeItem("teamstream_current_session");
 }
 
 export function getToken() {

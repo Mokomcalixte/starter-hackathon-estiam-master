@@ -240,6 +240,19 @@ body {
   align-items: center;
 }
 
+.session-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.session-actions .delete-session-btn {
+  background: rgba(248, 113, 113, 0.14);
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  color: #fecaca;
+}
+
 .session-row h3 {
   margin: 0;
 }
@@ -247,6 +260,58 @@ body {
 .session-row p {
   margin: 6px 0 0;
   color: #94a3b8;
+}
+
+.past-sessions-panel {
+  margin-top: 28px;
+}
+
+.panel-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.panel-title-row h2 {
+  margin: 0;
+}
+
+.panel-title-row button {
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.engine-panel {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.engine-panel p {
+  margin: 6px 0 0;
+}
+
+.engine-panel button {
+  border: none;
+  border-radius: 16px;
+  padding: 14px 20px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.engine-panel button:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 .watch-page {
   min-height: 100vh;
@@ -303,6 +368,26 @@ body {
   background: black;
 }
 
+.video-shell {
+  position: relative;
+}
+
+.watch-subtitle {
+  position: absolute;
+  left: 50%;
+  bottom: 58px;
+  transform: translateX(-50%);
+  max-width: 88%;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.72);
+  color: white;
+  font-size: 18px;
+  line-height: 1.35;
+  text-align: center;
+  pointer-events: none;
+}
+
 .player-controls {
   display: flex;
   justify-content: center;
@@ -352,6 +437,13 @@ body {
   background: rgba(255,255,255,0.06);
   border-radius: 14px;
   margin-bottom: 10px;
+}
+
+.system-message {
+  background: rgba(124, 58, 237, 0.12);
+  color: #c4b5fd;
+  font-size: 13px;
+  font-weight: 700;
 }
 
 .chat-card input {
@@ -464,6 +556,60 @@ body {
 .session-info p,
 .session-info small {
   color: #94a3b8;
+}
+
+.ai-panel-header,
+.subtitle-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.ai-panel-header {
+  justify-content: space-between;
+}
+
+.ai-panel-header button,
+.chapter-list button {
+  border: none;
+  border-radius: 14px;
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.08);
+  color: white;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ai-panel-header button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.subtitle-controls {
+  margin: 12px 0;
+  color: #cbd5e1;
+}
+
+.subtitle-controls select {
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(255,255,255,0.06);
+  color: white;
+}
+
+.subtitle-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chapter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
 }
 .viewer-notice {
   margin: 24px 0;

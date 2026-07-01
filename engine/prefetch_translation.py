@@ -10,11 +10,11 @@ Usage :
 
 import argostranslate.package as pkg
 
-PAIRS = [("fr", "en"), ("fr", "es")]
+PAIRS = [("fr", "en"), ("en", "es"), ("en", "zh"), ("es", "en")]
 
 
 def main():
-    print("Mise à jour de l'index des paquets…")
+    print("Mise a jour de l'index des paquets...")
     pkg.update_package_index()
     available = pkg.get_available_packages()
 
@@ -22,14 +22,14 @@ def main():
         match = next((p for p in available
                       if p.from_code == src and p.to_code == tgt), None)
         if not match:
-            print(f"  ✗ paire {src}->{tgt} introuvable dans l'index")
+            print(f"  [x] paire {src}->{tgt} introuvable dans l'index")
             continue
-        print(f"  ↓ téléchargement {src}->{tgt} …")
+        print(f"  telechargement {src}->{tgt}...")
         path = match.download()
         pkg.install_from_path(path)
-        print(f"  ✓ {src}->{tgt} installé")
+        print(f"  [ok] {src}->{tgt} installe")
 
-    print("\nTerminé. La traduction multilingue est maintenant disponible hors-ligne.")
+    print("\nTermine. La traduction multilingue est maintenant disponible hors-ligne.")
 
 
 if __name__ == "__main__":

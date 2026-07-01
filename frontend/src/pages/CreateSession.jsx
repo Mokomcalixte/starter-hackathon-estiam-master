@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function CreateSession({ onCancel, onCreate }) {
+export default function CreateSession({ onCancel, onCreate, currentUser }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [videoFile, setVideoFile] = useState(null);
@@ -21,6 +21,12 @@ export default function CreateSession({ onCancel, onCreate }) {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("video", videoFile);
+      if (currentUser?.id) {
+        formData.append("createdBy", currentUser.id);
+      }
+      if (currentUser?.fullName) {
+        formData.append("presenterName", currentUser.fullName);
+      }
 
       const res = await fetch("http://localhost:3000/sessions", {
         method: "POST",

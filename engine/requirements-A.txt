@@ -5,3 +5,4 @@ argostranslate
 fastapi
 uvicorn[standard]
 python-multipart
+imageio-ffmpeg
