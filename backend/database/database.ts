@@ -29,5 +29,14 @@ export async function initDatabase() {
     );
   `);
 
+  const sessionColumns = await db.all(`PRAGMA table_info(sessions)`);
+  const hasPresenterName = sessionColumns.some(
+    (column: { name: string }) => column.name === "presenterName",
+  );
+
+  if (!hasPresenterName) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN presenterName TEXT`);
+  }
+
   return db;
 }

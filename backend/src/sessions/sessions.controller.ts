@@ -35,7 +35,8 @@ export class SessionsController {
       description: body.description,
       videoName: file.originalname,
       videoPath: file.filename,
-      createdBy: body.createdBy,
+      createdBy: body.createdBy ? Number(body.createdBy) : undefined,
+      presenterName: body.presenterName,
     })
   }
 

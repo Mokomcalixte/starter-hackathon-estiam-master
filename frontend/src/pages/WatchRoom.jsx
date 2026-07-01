@@ -6,9 +6,14 @@ const socket = io("http://localhost:3000");
 export default function WatchRoom({ session, onBack }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [participants, setParticipants] = useState([
-    session?.currentUserName || "Vous",
-  ]);
+  const [participants, setParticipants] = useState(() => {
+    const initialParticipants = [
+      session?.presenterName,
+      session?.currentUserName || "Vous",
+    ].filter(Boolean);
+
+    return [...new Set(initialParticipants)];
+  });
   const [messages, setMessages] = useState(["👋 Session créée avec succès."]);
   const [chatText, setChatText] = useState("");
 
@@ -18,6 +23,15 @@ export default function WatchRoom({ session, onBack }) {
     socket.emit("join-session", {
       code: session.code,
       username: session.currentUserName,
+    });
+
+    socket.on("participant-list", (data) => {
+      const visibleParticipants = [
+        session.presenterName,
+        ...(data.participants || []),
+      ].filter(Boolean);
+
+      setParticipants([...new Set(visibleParticipants)]);
     });
 
     socket.on("participant-joined", (data) => {
@@ -50,11 +64,15 @@ export default function WatchRoom({ session, onBack }) {
     });
 
     return () => {
+      socket.emit("leave-session", {
+        code: session.code,
+      });
+      socket.off("participant-list");
       socket.off("participant-joined");
       socket.off("video-control");
       socket.off("chat-message");
     };
-  }, [session?.code, session?.currentUserName]);
+  }, [session?.code, session?.currentUserName, session?.presenterName]);
 
   if (!session) {
     return (

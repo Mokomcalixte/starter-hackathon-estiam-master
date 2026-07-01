@@ -9,6 +9,7 @@ export class SessionsService {
     videoName?: string
     videoPath?: string
     createdBy?: number
+    presenterName?: string
   }) {
     const db = await initDatabase()
 
@@ -16,8 +17,8 @@ export class SessionsService {
 
     await db.run(
       `
-      INSERT INTO sessions (title, description, videoName, videoPath, code, createdBy)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO sessions (title, description, videoName, videoPath, code, createdBy, presenterName)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
       `,
       body.title,
       body.description ?? '',
@@ -25,6 +26,7 @@ export class SessionsService {
       body.videoPath ?? '',
       code,
       body.createdBy ?? null,
+      body.presenterName ?? '',
     )
 
     return this.findByCode(code)
@@ -34,7 +36,12 @@ export class SessionsService {
     const db = await initDatabase()
 
     const session = await db.get(
-      `SELECT * FROM sessions WHERE code = ?`,
+      `
+      SELECT sessions.*, COALESCE(NULLIF(sessions.presenterName, ''), users.fullName) AS presenterName
+      FROM sessions
+      LEFT JOIN users ON users.id = sessions.createdBy
+      WHERE sessions.code = ?
+      `,
       code,
     )
 
@@ -48,7 +55,12 @@ export class SessionsService {
   async findAll() {
     const db = await initDatabase()
 
-    return db.all(`SELECT * FROM sessions ORDER BY createdAt DESC`)
+    return db.all(`
+      SELECT sessions.*, COALESCE(NULLIF(sessions.presenterName, ''), users.fullName) AS presenterName
+      FROM sessions
+      LEFT JOIN users ON users.id = sessions.createdBy
+      ORDER BY sessions.createdAt DESC
+    `)
   }
   async deleteAll() {
   const db = await initDatabase()
