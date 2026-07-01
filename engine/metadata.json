@@ -1,0 +1,118 @@
+{
+  "video": "sample.mp4",
+  "language": "fr",
+  "duration_sec": 87.21,
+  "transcript": "Environ 6 personnes de l'équipe qui ont travaillé sur ce POC, c'est des consultants en mission qui ont plus fourni des efforts pendant 3 mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématérise dans le cloud. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web, ça permet d'avoir plus de contrôle et plus de flexibilité. C'est important pour nos clients, nos partenaires et même nos consultants d'être présents sur ce POC. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir car les démonstrations pour découvrir notre savoir-faire et les capacités des boutiques qu'on leur propose aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud donc je pense qu'on a toutes les chances d'y trouver notre place.",
+  "segments": [
+    {
+      "start": 4.59,
+      "end": 18.9,
+      "text": "Environ 6 personnes de l'équipe qui ont travaillé sur ce POC,"
+    },
+    {
+      "start": 18.9,
+      "end": 23.9,
+      "text": "c'est des consultants en mission qui ont plus fourni des efforts pendant 3 mois."
+    },
+    {
+      "start": 23.9,
+      "end": 30.16,
+      "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel"
+    },
+    {
+      "start": 30.16,
+      "end": 32.16,
+      "text": "et on le dématérise dans le cloud."
+    },
+    {
+      "start": 32.16,
+      "end": 35.16,
+      "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler"
+    },
+    {
+      "start": 35.16,
+      "end": 37.16,
+      "text": "depuis une interface web,"
+    },
+    {
+      "start": 37.16,
+      "end": 40.16,
+      "text": "ça permet d'avoir plus de contrôle et plus de flexibilité."
+    },
+    {
+      "start": 40.16,
+      "end": 49.41,
+      "text": "C'est important pour nos clients, nos partenaires et même nos consultants"
+    },
+    {
+      "start": 49.41,
+      "end": 51.41,
+      "text": "d'être présents sur ce POC."
+    },
+    {
+      "start": 51.41,
+      "end": 54.41,
+      "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir"
+    },
+    {
+      "start": 54.41,
+      "end": 57.41,
+      "text": "car les démonstrations pour découvrir notre savoir-faire"
+    },
+    {
+      "start": 57.41,
+      "end": 60.41,
+      "text": "et les capacités des boutiques qu'on leur propose aujourd'hui."
+    },
+    {
+      "start": 61.41,
+      "end": 68.45,
+      "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer."
+    },
+    {
+      "start": 68.45,
+      "end": 72.45,
+      "text": "Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud"
+    },
+    {
+      "start": 72.45,
+      "end": 75.45,
+      "text": "donc je pense qu'on a toutes les chances d'y trouver notre place."
+    }
+  ],
+  "translation": {
+    "lang": "en",
+    "text": "[traduction locale non installée — argostranslate absent]",
+    "note": "installer argostranslate + paire de langue pour activer"
+  },
+  "summary": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web, ça permet d'avoir plus de contrôle et plus de flexibilité. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir car les démonstrations pour découvrir notre savoir-faire et les capacités des boutiques qu'on leur propose aujourd'hui. Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud donc je pense qu'on a toutes les chances d'y trouver notre place.",
+  "chapters": [
+    {
+      "title": "Équipe travaillé · Équipe",
+      "start": 4.59
+    },
+    {
+      "title": "Pouvoir contrôler · Pouvoir",
+      "start": 32.16
+    },
+    {
+      "title": "Présents réel · Présents",
+      "start": 49.41
+    },
+    {
+      "title": "Trouver place · Sûrement passer",
+      "start": 61.41
+    }
+  ],
+  "keywords": [
+    "cloud",
+    "innovation",
+    "consultants",
+    "trouver place",
+    "travaillé",
+    "sûrement passer",
+    "équipe",
+    "sein sûrement"
+  ],
+  "generated_at": "2026-06-30T12:22:10Z"
+}

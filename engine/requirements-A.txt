@@ -1,0 +1,7 @@
+faster-whisper
+scikit-learn
+numpy
+argostranslate
+fastapi
+uvicorn[standard]
+python-multipart
