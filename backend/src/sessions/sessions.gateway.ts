@@ -12,8 +12,23 @@ interface ChatMessage {
   id: string
   username: string
   message: string
+  text: string
   sentAt: string
+  timestamp: string
   type: 'user' | 'system'
+}
+
+interface Participant {
+  username: string
+  isPresenter: boolean
+}
+
+interface RoomState {
+  isPlaying: boolean
+  currentTime: number
+  updatedAt: number
+  playbackRate: number
+  presenterSocketId: string | null
 }
 
 @WebSocketGateway({
@@ -25,8 +40,15 @@ export class SessionsGateway implements OnGatewayDisconnect {
   @WebSocketServer()
   server: Server
 
-  private readonly participantsBySession = new Map<string, Map<string, string>>()
-  private readonly sessionBySocket = new Map<string, string>()
+  private readonly rooms = new Map<string, RoomState>()
+  private readonly clients = new Map<
+    string,
+    { code: string; username: string; isPresenter: boolean }
+  >()
+  private readonly participantsBySession = new Map<
+    string,
+    Map<string, Participant>
+  >()
   private readonly messagesBySession = new Map<string, ChatMessage[]>()
   private readonly leaveTimersBySocket = new Map<
     string,
@@ -35,45 +57,56 @@ export class SessionsGateway implements OnGatewayDisconnect {
 
   @SubscribeMessage('join-session')
   handleJoinSession(
-    @MessageBody() data: { code: string; username: string },
+    @MessageBody()
+    data: { code: string; username: string; isPresenter?: boolean },
     @ConnectedSocket() client: Socket,
   ) {
     this.cancelPendingLeave(client.id)
 
-    const previousCode = this.sessionBySocket.get(client.id)
+    const previousClient = this.clients.get(client.id)
 
-    if (previousCode === data.code) {
-      client.emit('chat-history', {
-        messages: this.messagesBySession.get(data.code) ?? [],
-      })
-      this.emitParticipantList(data.code)
+    if (previousClient?.code === data.code) {
+      this.emitSessionState(data.code, client)
       return
     }
 
-    if (previousCode && previousCode !== data.code) {
-      this.removeParticipant(previousCode, client.id, true)
-      client.leave(previousCode)
+    if (previousClient && previousClient.code !== data.code) {
+      this.removeParticipant(previousClient.code, client.id, true)
+      client.leave(previousClient.code)
     }
 
     client.join(data.code)
-    this.sessionBySocket.set(client.id, data.code)
+
+    const isPresenter = Boolean(data.isPresenter)
+    this.clients.set(client.id, {
+      code: data.code,
+      username: data.username,
+      isPresenter,
+    })
+
+    const room = this.getOrCreateRoom(data.code)
+    if (isPresenter) {
+      room.presenterSocketId = client.id
+    }
 
     const participants =
-      this.participantsBySession.get(data.code) ?? new Map<string, string>()
-    const alreadyInRoom = [...participants.values()].includes(data.username)
+      this.participantsBySession.get(data.code) ?? new Map<string, Participant>()
+    const alreadyInRoom = [...participants.values()].some(
+      (participant) => participant.username === data.username,
+    )
 
-    participants.set(client.id, data.username)
+    participants.set(client.id, {
+      username: data.username,
+      isPresenter,
+    })
     this.participantsBySession.set(data.code, participants)
 
     if (!alreadyInRoom) {
       this.addSystemMessage(data.code, `${data.username} a rejoint la session`)
     }
 
-    client.emit('chat-history', {
-      messages: this.messagesBySession.get(data.code) ?? [],
-    })
-
     this.emitParticipantList(data.code)
+    this.emitSessionState(data.code, client)
   }
 
   @SubscribeMessage('leave-session')
@@ -90,11 +123,33 @@ export class SessionsGateway implements OnGatewayDisconnect {
     @MessageBody()
     data: {
       code: string
-      action: 'play' | 'pause' | 'seek'
+      action: 'play' | 'pause' | 'seek' | 'rate'
       time: number
+      rate?: number
     },
+    @ConnectedSocket() client: Socket,
   ) {
-    this.server.to(data.code).emit('video-control', data)
+    const info = this.clients.get(client.id)
+
+    if (!info?.isPresenter) return
+
+    const room = this.getOrCreateRoom(data.code)
+    room.currentTime = data.time
+    room.updatedAt = Date.now()
+
+    if (data.action === 'play') room.isPlaying = true
+    if (data.action === 'pause') room.isPlaying = false
+    if (data.action === 'rate' && data.rate) room.playbackRate = data.rate
+
+    client.to(data.code).emit('video-control', data)
+  }
+
+  @SubscribeMessage('request-sync')
+  handleRequestSync(
+    @MessageBody() data: { code: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    this.emitSyncState(data.code, client)
   }
 
   @SubscribeMessage('chat-message')
@@ -109,11 +164,19 @@ export class SessionsGateway implements OnGatewayDisconnect {
   ) {
     if (!client.rooms.has(data.code)) {
       client.join(data.code)
-      this.sessionBySocket.set(client.id, data.code)
+      this.clients.set(client.id, {
+        code: data.code,
+        username: data.username,
+        isPresenter: false,
+      })
 
       const participants =
-        this.participantsBySession.get(data.code) ?? new Map<string, string>()
-      participants.set(client.id, data.username)
+        this.participantsBySession.get(data.code) ??
+        new Map<string, Participant>()
+      participants.set(client.id, {
+        username: data.username,
+        isPresenter: false,
+      })
       this.participantsBySession.set(data.code, participants)
       this.emitParticipantList(data.code)
     }
@@ -127,12 +190,36 @@ export class SessionsGateway implements OnGatewayDisconnect {
     this.server.to(data.code).emit('chat-message', message)
   }
 
+  @SubscribeMessage('reaction')
+  handleReaction(
+    @MessageBody() data: { code: string; username: string; emoji: string },
+  ) {
+    this.server.to(data.code).emit('reaction', data)
+  }
+
   handleDisconnect(client: Socket) {
-    const code = this.sessionBySocket.get(client.id)
+    const info = this.clients.get(client.id)
 
-    if (!code) return
+    if (!info) return
 
-    this.scheduleParticipantRemoval(code, client.id)
+    this.scheduleParticipantRemoval(info.code, client.id)
+  }
+
+  private getOrCreateRoom(code: string) {
+    let room = this.rooms.get(code)
+
+    if (!room) {
+      room = {
+        isPlaying: false,
+        currentTime: 0,
+        updatedAt: Date.now(),
+        playbackRate: 1,
+        presenterSocketId: null,
+      }
+      this.rooms.set(code, room)
+    }
+
+    return room
   }
 
   private scheduleParticipantRemoval(code: string, socketId: string) {
@@ -161,14 +248,24 @@ export class SessionsGateway implements OnGatewayDisconnect {
     silent = false,
   ) {
     const participants = this.participantsBySession.get(code)
+    const clientInfo = this.clients.get(socketId)
 
-    if (!participants) return
+    if (!participants || !clientInfo) return
 
-    const username = participants.get(socketId)
+    const participant = participants.get(socketId)
     participants.delete(socketId)
-    this.sessionBySocket.delete(socketId)
-    const stillConnectedWithSameName = username
-      ? [...participants.values()].includes(username)
+    this.clients.delete(socketId)
+
+    const room = this.rooms.get(code)
+    if (room?.presenterSocketId === socketId) {
+      room.presenterSocketId = null
+      this.server.to(code).emit('presenter-left', {})
+    }
+
+    const stillConnectedWithSameName = participant
+      ? [...participants.values()].some(
+          (item) => item.username === participant.username,
+        )
       : false
 
     if (participants.size === 0) {
@@ -176,19 +273,52 @@ export class SessionsGateway implements OnGatewayDisconnect {
       return
     }
 
-    if (username && !silent && !stillConnectedWithSameName) {
-      this.addSystemMessage(code, `${username} a quitte la session`)
+    if (participant && !silent && !stillConnectedWithSameName) {
+      this.addSystemMessage(code, `${participant.username} a quitte la session`)
     }
 
     this.emitParticipantList(code)
   }
 
+  private emitSessionState(code: string, client: Socket) {
+    client.emit('chat-history', {
+      messages: this.messagesBySession.get(code) ?? [],
+    })
+    this.emitSyncState(code, client)
+    this.emitParticipantList(code)
+  }
+
+  private emitSyncState(code: string, client: Socket) {
+    const room = this.rooms.get(code)
+    if (!room) return
+
+    const elapsed = (Date.now() - room.updatedAt) / 1000
+    const currentTime = room.isPlaying
+      ? room.currentTime + elapsed * room.playbackRate
+      : room.currentTime
+
+    client.emit('sync-state', {
+      isPlaying: room.isPlaying,
+      currentTime,
+      playbackRate: room.playbackRate,
+    })
+  }
+
   private emitParticipantList(code: string) {
     const participants = this.participantsBySession.get(code)
-    const names = participants ? [...new Set(participants.values())] : []
+    const byName = new Map<string, Participant>()
+
+    for (const participant of participants?.values() ?? []) {
+      const existing = byName.get(participant.username)
+      byName.set(participant.username, {
+        username: participant.username,
+        isPresenter:
+          Boolean(existing?.isPresenter) || Boolean(participant.isPresenter),
+      })
+    }
 
     this.server.to(code).emit('participant-list', {
-      participants: names,
+      participants: [...byName.values()],
     })
   }
 
@@ -206,10 +336,13 @@ export class SessionsGateway implements OnGatewayDisconnect {
     code: string,
     message: Pick<ChatMessage, 'username' | 'message' | 'type'>,
   ) {
+    const timestamp = new Date().toISOString()
     const chatMessage: ChatMessage = {
       ...message,
+      text: message.message,
       id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      sentAt: new Date().toISOString(),
+      sentAt: timestamp,
+      timestamp,
     }
     const messages = this.messagesBySession.get(code) ?? []
 
