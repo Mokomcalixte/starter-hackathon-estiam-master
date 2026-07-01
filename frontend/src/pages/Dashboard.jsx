@@ -1,10 +1,22 @@
+import { useState } from "react";
 import { logout } from "../auth";
 
-export default function Dashboard({ onOpenWatch }) {
+export default function Dashboard({ onCreateSession, onJoinSession, session }) {
+  const [joinCode, setJoinCode] = useState("");
+
+  function handleJoin() {
+    if (!joinCode.trim()) {
+      alert("Entre un code de session.");
+      return;
+    }
+
+    onJoinSession(joinCode.trim());
+  }
+
   return (
     <div className="dashboard-page">
       <aside className="sidebar">
-        <div className="brand">▶ TeamStream</div>
+        <div className="brand">TeamStream</div>
 
         <nav>
           <a className="active">🏠 Dashboard</a>
@@ -28,12 +40,12 @@ export default function Dashboard({ onOpenWatch }) {
       <main className="dashboard-main">
         <header className="dashboard-header">
           <div>
-            <span className="badge">Watch Together · Sujet B</span>
-            <h1>Bonjour 👋</h1>
+            <span className="badge">Watch Together</span>
+            <h1>Bonjour</h1>
             <p>Créez une session vidéo et regardez-la avec votre équipe en temps réel.</p>
           </div>
 
-          <button className="primary-btn" onClick={onOpenWatch}>
+          <button className="primary-btn" onClick={onCreateSession}>
             + Créer une session
           </button>
         </header>
@@ -42,42 +54,34 @@ export default function Dashboard({ onOpenWatch }) {
           <div className="action-card big">
             <h2>Créer une session</h2>
             <p>Lancez une salle vidéo synchronisée avec chat et participants.</p>
-            <button onClick={onOpenWatch}>Démarrer maintenant</button>
+            <button onClick={onCreateSession}>Démarrer maintenant</button>
           </div>
 
           <div className="action-card">
             <h2>Rejoindre</h2>
-            <input placeholder="Code session ex: TS-2048" />
-            <button onClick={onOpenWatch}>Rejoindre</button>
+            <input
+              placeholder="Code session ex: TS-2048"
+              value={joinCode}
+              onChange={(e) => setJoinCode(e.target.value)}
+            />
+            <button onClick={handleJoin}>Rejoindre</button>
           </div>
         </section>
 
         <section className="sessions-panel">
           <h2>Mes sessions récentes</h2>
 
-          <div className="session-row">
-            <div>
-              <h3>Démo produit TeamStream</h3>
-              <p>En attente · 4 participants</p>
+          {session ? (
+            <div className="session-row">
+              <div>
+                <h3>{session.title}</h3>
+                <p>Code : {session.code} · En attente</p>
+              </div>
+              <button onClick={() => onJoinSession(session.code)}>Ouvrir</button>
             </div>
-            <button onClick={onOpenWatch}>Ouvrir</button>
-          </div>
-
-          <div className="session-row">
-            <div>
-              <h3>Formation React interne</h3>
-              <p>Terminée · résumé IA disponible</p>
-            </div>
-            <button onClick={onOpenWatch}>Voir</button>
-          </div>
-
-          <div className="session-row">
-            <div>
-              <h3>Présentation client</h3>
-              <p>Aujourd’hui · 15h00</p>
-            </div>
-            <button onClick={onOpenWatch}>Rejoindre</button>
-          </div>
+          ) : (
+            <p className="muted">Aucune session créée pour le moment.</p>
+          )}
         </section>
       </main>
     </div>

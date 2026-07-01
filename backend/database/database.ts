@@ -16,6 +16,17 @@ export async function initDatabase() {
       role TEXT DEFAULT 'member',
       createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
     );
+
+    CREATE TABLE IF NOT EXISTS sessions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      description TEXT,
+      videoName TEXT,
+      videoPath TEXT,
+      code TEXT NOT NULL UNIQUE,
+      createdBy INTEGER,
+      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+    );
   `);
 
   return db;
