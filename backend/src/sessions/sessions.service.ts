@@ -62,6 +62,50 @@ export class SessionsService {
       ORDER BY sessions.createdAt DESC
     `)
   }
+
+  async deleteByCode(code: string) {
+    const db = await initDatabase()
+    const result = await db.run('DELETE FROM sessions WHERE code = ?', code)
+
+    if (!result.changes) {
+      throw new NotFoundException('Session introuvable')
+    }
+
+    return { message: 'Session supprimée', code }
+  }
+
+  async updateEngineAnalysis(code: string, metadata: any) {
+    const db = await initDatabase()
+
+    await db.run(
+      `
+      UPDATE sessions
+      SET engineStatus = ?, engineVideoId = ?, engineMetadata = ?
+      WHERE code = ?
+      `,
+      'ready',
+      metadata?.id ?? '',
+      JSON.stringify(metadata),
+      code,
+    )
+
+    return this.findByCode(code)
+  }
+
+  async markEngineAnalysisFailed(code: string) {
+    const db = await initDatabase()
+
+    await db.run(
+      `
+      UPDATE sessions
+      SET engineStatus = ?
+      WHERE code = ?
+      `,
+      'failed',
+      code,
+    )
+  }
+
   async deleteAll() {
   const db = await initDatabase()
 

@@ -12,10 +12,15 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { diskStorage } from 'multer'
 import { extname } from 'path'
 import { SessionsService } from './sessions.service'
+import { EngineService } from '../engine/engine.service'
+import { join } from 'path'
 
 @Controller('sessions')
 export class SessionsController {
-  constructor(private readonly sessionsService: SessionsService) {}
+  constructor(
+    private readonly sessionsService: SessionsService,
+    private readonly engineService: EngineService,
+  ) {}
 
   @Post()
   @UseInterceptors(
@@ -48,6 +53,29 @@ export class SessionsController {
   @Delete()
   deleteAll() {
     return this.sessionsService.deleteAll()
+  }
+
+  @Delete(':code')
+  deleteByCode(@Param('code') code: string) {
+    return this.sessionsService.deleteByCode(code)
+  }
+
+  @Post(':code/analyze')
+  async analyze(@Param('code') code: string) {
+    const session = await this.sessionsService.findByCode(code)
+    const filePath = join(process.cwd(), 'uploads', session.videoPath)
+
+    try {
+      const metadata = await this.engineService.indexFile(
+        filePath,
+        session.videoName || session.videoPath,
+      )
+
+      return this.sessionsService.updateEngineAnalysis(code, metadata)
+    } catch (error) {
+      await this.sessionsService.markEngineAnalysisFailed(code)
+      throw error
+    }
   }
 
   @Get(':code')

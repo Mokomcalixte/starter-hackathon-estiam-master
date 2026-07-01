@@ -1,0 +1,1012 @@
+{
+  "b1d30a8e": {
+    "video": "42 - POC Parc des Princes V1 .mp4",
+    "language": "fr",
+    "duration_sec": 87.21,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "Environ 6 personnes de l'équipe qui ont travaillé sur ce POC, c'est des consultants en mission qui ont plus fourni des efforts pendant 3 mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématérise dans le cloud. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web, ça permet d'avoir plus de contrôle et plus de flexibilité. C'est important pour nos clients, nos partenaires et même nos consultants d'être présents sur ce POC. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir car les démonstrations pour découvrir notre savoir-faire et les capacités des boutiques qu'on leur propose aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 18.9,
+        "text": "Environ 6 personnes de l'équipe qui ont travaillé sur ce POC,",
+        "translations": {
+          "en": "About 6 people from the team who worked on this POC,",
+          "es": "Alrededor de 6 personas del equipo que trabajaban en este POC,",
+          "zh": "大约6个人从团队 谁工作在这个POC,"
+        }
+      },
+      {
+        "start": 18.9,
+        "end": 23.9,
+        "text": "c'est des consultants en mission qui ont plus fourni des efforts pendant 3 mois.",
+        "translations": {
+          "en": "It was consultants on mission who made more efforts for three months.",
+          "es": "Fueron consultores en misión quienes hicieron más esfuerzos durante tres meses.",
+          "zh": "出差顾问在三个月中作出了更多的努力。"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 30.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel",
+        "translations": {
+          "en": "The first innovation is to remove everything that is material.",
+          "es": "La primera innovación es eliminar todo lo que es material.",
+          "zh": "第一种创新是去除一切物质."
+        }
+      },
+      {
+        "start": 30.16,
+        "end": 32.16,
+        "text": "et on le dématérise dans le cloud.",
+        "translations": {
+          "en": "And we'll decate it in the cloud.",
+          "es": "Y lo ubicaremos en la nube.",
+          "zh": "并入云中解脱."
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 35.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler",
+        "translations": {
+          "en": "The second innovation is the ability to control everything",
+          "es": "La segunda innovación es la capacidad de controlar todo",
+          "zh": "第二种创新是控制一切的能力"
+        }
+      },
+      {
+        "start": 35.16,
+        "end": 37.16,
+        "text": "depuis une interface web,",
+        "translations": {
+          "en": "from a web interface,",
+          "es": "desde una interfaz web,",
+          "zh": "从网络界面,"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "ça permet d'avoir plus de contrôle et plus de flexibilité.",
+        "translations": {
+          "en": "It allows for more control and flexibility.",
+          "es": "Permite más control y flexibilidad.",
+          "zh": "它允许更多的控制和灵活性。"
+        }
+      },
+      {
+        "start": 40.16,
+        "end": 49.41,
+        "text": "C'est important pour nos clients, nos partenaires et même nos consultants",
+        "translations": {
+          "en": "This is important for our clients, our partners and even our consultants",
+          "es": "Esto es importante para nuestros clientes, nuestros socios e incluso nuestros consultores",
+          "zh": "这对我们的客户,我们的合伙人,甚至我们的顾问都很重要"
+        }
+      },
+      {
+        "start": 49.41,
+        "end": 51.41,
+        "text": "d'être présents sur ce POC.",
+        "translations": {
+          "en": "to be present on this POC.",
+          "es": "estar presente en esta POC.",
+          "zh": "将出席这个POC。"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 54.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir",
+        "translations": {
+          "en": "To really see things in real life, it's much more interesting to see us",
+          "es": "Para ver las cosas en la vida real, es mucho más interesante vernos",
+          "zh": "真正在现实生活中看到事物 更有趣的是看到我们"
+        }
+      },
+      {
+        "start": 54.41,
+        "end": 57.41,
+        "text": "car les démonstrations pour découvrir notre savoir-faire",
+        "translations": {
+          "en": "because the demonstrations to discover our know-how",
+          "es": "porque las manifestaciones para descubrir nuestro know-how",
+          "zh": "因为为了发掘我们的知识"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 60.41,
+        "text": "et les capacités des boutiques qu'on leur propose aujourd'hui.",
+        "translations": {
+          "en": "and the capabilities of the shops we offer them today.",
+          "es": "y las capacidades de las tiendas que les ofrecemos hoy.",
+          "zh": "以及我们今天提供的商店的能力"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "What we hope for next is really to consolidate everything we have developed.",
+          "es": "Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado.",
+          "zh": "我们希望接下来真正巩固我们已经发展起来的一切。"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud",
+        "translations": {
+          "en": "Within 42, that's probably where things are going to happen in the cloud.",
+          "es": "Dentro de 42, eso es probablemente donde las cosas van a suceder en la nube.",
+          "zh": "42分之内,这大概就是云中会出事的地方."
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "So I think we have every chance of finding our place.",
+          "es": "Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar.",
+          "zh": "所以,我认为我们有 找到我们的地方的一切机会。"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "Approximately 6 staff members who worked on this POC were mission consultants who worked more for 3 months. The first innovation is to remove everything that's hardware and decaterate it in the cloud. The second innovation is the ability to control everything from a web interface, which allows you to have more control and flexibility. It is important for our clients, partners and even our consultants to be present on this POC. To really see things in real life, it is much more interesting to see us because the demonstrations to discover our know-how and the capabilities of the shops we offer them today. What we hope for next is really to consolidate everything we have developed. Within 42, that's probably where things are going to happen in the cloud, so I think we have every chance of finding our place."
+      },
+      {
+        "lang": "es",
+        "text": "Aproximadamente 6 funcionarios que trabajaron en esta Comisión fueron consultores de misiones que trabajaron más durante 3 meses. La primera innovación es eliminar todo lo que es hardware y decaterarlo en la nube. La segunda innovación es la capacidad de controlar todo desde una interfaz web, que le permite tener más control y flexibilidad. Es importante que nuestros clientes, socios e incluso nuestros consultores estén presentes en esta POC. Para ver realmente las cosas en la vida real, es mucho más interesante vernos porque las manifestaciones para descubrir nuestro know-how y las capacidades de las tiendas que les ofrecemos hoy. Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado. Dentro de 42, eso es probablemente donde las cosas van a suceder en la nube, así que creo que tenemos todas las posibilidades de encontrar nuestro lugar."
+      },
+      {
+        "lang": "zh",
+        "text": "大约6名工作人员为这个POC工作,是特派团顾问,他们工作了三个月以上。 第一个创新是去掉所有硬件,在云中去掉它. 第二项创新是能够从一个网络界面控制一切事物,这使得你有更多的控制和灵活性. 重要的是,我们的客户、合作伙伴,甚至我们的顾问,都能够参加这个项目。 真正在现实生活中看到事物,看到我们更有趣,因为展示我们的专门知识和我们今天提供的商店的能力。 我们希望接下来真正巩固我们已经发展起来的一切。 42分之内,这大概就是云中会出事的地方,所以我想我们有一切机会找到我们的位置."
+      }
+    ],
+    "summary": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web, ça permet d'avoir plus de contrôle et plus de flexibilité. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir car les démonstrations pour découvrir notre savoir-faire et les capacités des boutiques qu'on leur propose aujourd'hui. Au sein de 42, c'est sûrement là que les choses vont se passer dans le cloud donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "chapters": [
+      {
+        "title": "Équipe travaillé · Équipe",
+        "start": 4.59
+      },
+      {
+        "title": "Pouvoir contrôler · Pouvoir",
+        "start": 32.16
+      },
+      {
+        "title": "Présents réel · Présents",
+        "start": 49.41
+      },
+      {
+        "title": "Trouver place · Sûrement passer",
+        "start": 61.41
+      }
+    ],
+    "keywords": [
+      "cloud",
+      "innovation",
+      "consultants",
+      "trouver place",
+      "travaillé",
+      "sûrement passer",
+      "équipe",
+      "sein sûrement"
+    ],
+    "generated_at": "2026-07-01T07:58:34Z",
+    "id": "b1d30a8e"
+  },
+  "3f78f002": {
+    "video": "sample.mp4",
+    "language": "fr",
+    "duration_sec": 87.2,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web. Ça permet d'avoir plus de contrôles et plus d'efficibilité. C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. C'est sûrement la que les choses vont se passer dans le cloud. Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 23.9,
+        "text": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 32.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 37.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "Ça permet d'avoir plus de contrôles et plus d'efficibilité.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 46.41,
+        "end": 51.41,
+        "text": "C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 57.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire,",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 61.41,
+        "text": "et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "C'est sûrement la que les choses vont se passer dans le cloud.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "[paire fr->en non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      },
+      {
+        "lang": "es",
+        "text": "[paire fr->es non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      },
+      {
+        "lang": "zh",
+        "text": "[paire fr->zh non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      }
+    ],
+    "summary": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+    "chapters": [
+      {
+        "title": "Innovation · Équipe travaillé",
+        "start": 4.59
+      },
+      {
+        "title": "Supportés découvrir · Supportés",
+        "start": 37.16
+      },
+      {
+        "title": "Capacités · Utiliser proposer",
+        "start": 57.41
+      },
+      {
+        "title": "Trouver place · Trouver",
+        "start": 68.45
+      }
+    ],
+    "keywords": [
+      "pense",
+      "capacités",
+      "consultants",
+      "innovation",
+      "équipe travaillé",
+      "utiliser",
+      "trouver place",
+      "virons personnes"
+    ],
+    "generated_at": "2026-07-01T09:47:03Z",
+    "id": "3f78f002"
+  },
+  "8f303393": {
+    "video": "42 - POC Parc des Princes V1 .mp4",
+    "language": "fr",
+    "duration_sec": 87.2,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web. Ça permet d'avoir plus de contrôles et plus d'efficibilité. C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. C'est sûrement la que les choses vont se passer dans le cloud. Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 23.9,
+        "text": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 32.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 37.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "Ça permet d'avoir plus de contrôles et plus d'efficibilité.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 46.41,
+        "end": 51.41,
+        "text": "C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 57.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire,",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 61.41,
+        "text": "et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "C'est sûrement la que les choses vont se passer dans le cloud.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "[fr->en non installée]",
+          "es": "[fr->es non installée]",
+          "zh": "[fr->zh non installée]"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "[paire fr->en non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      },
+      {
+        "lang": "es",
+        "text": "[paire fr->es non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      },
+      {
+        "lang": "zh",
+        "text": "[paire fr->zh non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      }
+    ],
+    "summary": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+    "chapters": [
+      {
+        "title": "Innovation · Équipe travaillé",
+        "start": 4.59
+      },
+      {
+        "title": "Supportés découvrir · Supportés",
+        "start": 37.16
+      },
+      {
+        "title": "Capacités · Utiliser proposer",
+        "start": 57.41
+      },
+      {
+        "title": "Trouver place · Trouver",
+        "start": 68.45
+      }
+    ],
+    "keywords": [
+      "pense",
+      "capacités",
+      "consultants",
+      "innovation",
+      "équipe travaillé",
+      "utiliser",
+      "trouver place",
+      "virons personnes"
+    ],
+    "generated_at": "2026-07-01T09:48:06Z",
+    "id": "8f303393"
+  },
+  "c3f140f8": {
+    "video": "42 - POC Parc des Princes V1 .mp4",
+    "language": "fr",
+    "duration_sec": 87.2,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web. Ça permet d'avoir plus de contrôles et plus d'efficibilité. C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. C'est sûrement la que les choses vont se passer dans le cloud. Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 23.9,
+        "text": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois.",
+        "translations": {
+          "en": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months.",
+          "es": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses.",
+          "zh": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 32.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre.",
+        "translations": {
+          "en": "The first innovation is to remove everything that is material and dematerate it in the frame.",
+          "es": "La primera innovación es eliminar todo lo que es material y dematarlo en el marco.",
+          "zh": "第一项创新是去掉所有物质的东西,在框架里去掉它."
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 37.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web.",
+        "translations": {
+          "en": "The second innovation is the ability to control everything from a web interface.",
+          "es": "La segunda innovación es la capacidad de controlar todo desde una interfaz web.",
+          "zh": "第二个创新是能够从网络界面控制一切。"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "Ça permet d'avoir plus de contrôles et plus d'efficibilité.",
+        "translations": {
+          "en": "It allows you to have more controls and more efficiency.",
+          "es": "Le permite tener más controles y más eficiencia.",
+          "zh": "它可以让你拥有更多的控制和更高的效率."
+        }
+      },
+      {
+        "start": 46.41,
+        "end": 51.41,
+        "text": "C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc.",
+        "translations": {
+          "en": "It's important, I think, for our clients, our partners, and even our consultants, questions about this poc.",
+          "es": "Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc.",
+          "zh": "我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 57.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire,",
+        "translations": {
+          "en": "To really see things in real life, it's much more interesting to see us that the demes will be supported to discover our know-how,",
+          "es": "Para ver realmente las cosas en la vida real, es mucho más interesante vernos que los demes serán apoyados para descubrir nuestro know-how,",
+          "zh": "真正在现实生活中看到事物, 它更有趣的是看到我们, 德姆斯将会得到支持 发现我们的知识,"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 61.41,
+        "text": "et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+        "translations": {
+          "en": "and the capabilities and capabilities to use to offer them today.",
+          "es": "y las capacidades y capacidades de utilizar para ofrecerlas hoy.",
+          "zh": "以及今天用来提供它们的能力。"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "What we hope for next is really to consolidate everything we have developed.",
+          "es": "Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado.",
+          "zh": "我们希望接下来真正巩固我们已经发展起来的一切。"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "C'est sûrement la que les choses vont se passer dans le cloud.",
+        "translations": {
+          "en": "It's probably where things are going to be in the cloud.",
+          "es": "Probablemente es donde las cosas van a estar en la nube.",
+          "zh": "或有入地入地入云."
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "So I think we have every chance of finding our place.",
+          "es": "Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar.",
+          "zh": "所以,我认为我们有 找到我们的地方的一切机会。"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months. The first innovation is to remove everything that is material and dematerate it in the frame. The second innovation is the ability to control everything from a web interface. It allows you to have more controls and more efficiency. It's important, I think, for our clients, our partners, and even our consultants, questions about this poc. To really see things in real life, it's much more interesting to see that the demes will be supported to discover our know-how, and the capabilities and capabilities to use to offer them today. What we hope for next is really to consolidate everything we have developed. It's probably where things are going to be in the cloud. So I think we have every chance of finding our place."
+      },
+      {
+        "lang": "es",
+        "text": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses. La primera innovación es eliminar todo lo que es material y dematarlo en el marco. La segunda innovación es la capacidad de controlar todo desde una interfaz web. Le permite tener más controles y más eficiencia. Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc. Para ver realmente las cosas en la vida real, es mucho más interesante ver que los demes serán apoyados para descubrir nuestro know-how, y las capacidades y capacidades de utilizar para ofrecerlas hoy. Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado. Probablemente es donde las cosas van a estar en la nube. Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar."
+      },
+      {
+        "lang": "zh",
+        "text": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。 第一项创新是去掉所有物质的东西,在框架里去掉它. 第二个创新是能够从网络界面控制一切。 它可以让你拥有更多的控制和更高的效率. 我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。 要在现实生活中真正看到事物, 更有趣的是, 德姆斯将会被支持去发现我们的知识, 以及今天用来提供它们的能力。 我们希望接下来真正巩固我们已经发展起来的一切。 或有入地入地入云. 所以,我认为我们有 找到我们的地方的一切机会。"
+      }
+    ],
+    "summary": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+    "chapters": [
+      {
+        "title": "Innovation · Équipe travaillé",
+        "start": 4.59
+      },
+      {
+        "title": "Supportés découvrir · Supportés",
+        "start": 37.16
+      },
+      {
+        "title": "Capacités · Utiliser proposer",
+        "start": 57.41
+      },
+      {
+        "title": "Trouver place · Trouver",
+        "start": 68.45
+      }
+    ],
+    "keywords": [
+      "pense",
+      "capacités",
+      "consultants",
+      "innovation",
+      "équipe travaillé",
+      "utiliser",
+      "trouver place",
+      "virons personnes"
+    ],
+    "generated_at": "2026-07-01T09:58:18Z",
+    "id": "c3f140f8"
+  },
+  "327773fa": {
+    "video": "42 - POC Parc des Princes V1 .mp4",
+    "language": "fr",
+    "duration_sec": 87.2,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web. Ça permet d'avoir plus de contrôles et plus d'efficibilité. C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. C'est sûrement la que les choses vont se passer dans le cloud. Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 23.9,
+        "text": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois.",
+        "translations": {
+          "en": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months.",
+          "es": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses.",
+          "zh": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 32.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre.",
+        "translations": {
+          "en": "The first innovation is to remove everything that is material and dematerate it in the frame.",
+          "es": "La primera innovación es eliminar todo lo que es material y dematarlo en el marco.",
+          "zh": "第一项创新是去掉所有物质的东西,在框架里去掉它."
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 37.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web.",
+        "translations": {
+          "en": "The second innovation is the ability to control everything from a web interface.",
+          "es": "La segunda innovación es la capacidad de controlar todo desde una interfaz web.",
+          "zh": "第二个创新是能够从网络界面控制一切。"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "Ça permet d'avoir plus de contrôles et plus d'efficibilité.",
+        "translations": {
+          "en": "It allows you to have more controls and more efficiency.",
+          "es": "Le permite tener más controles y más eficiencia.",
+          "zh": "它可以让你拥有更多的控制和更高的效率."
+        }
+      },
+      {
+        "start": 46.41,
+        "end": 51.41,
+        "text": "C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc.",
+        "translations": {
+          "en": "It's important, I think, for our clients, our partners, and even our consultants, questions about this poc.",
+          "es": "Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc.",
+          "zh": "我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 57.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire,",
+        "translations": {
+          "en": "To really see things in real life, it's much more interesting to see us that the demes will be supported to discover our know-how,",
+          "es": "Para ver realmente las cosas en la vida real, es mucho más interesante vernos que los demes serán apoyados para descubrir nuestro know-how,",
+          "zh": "真正在现实生活中看到事物, 它更有趣的是看到我们, 德姆斯将会得到支持 发现我们的知识,"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 61.41,
+        "text": "et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+        "translations": {
+          "en": "and the capabilities and capabilities to use to offer them today.",
+          "es": "y las capacidades y capacidades de utilizar para ofrecerlas hoy.",
+          "zh": "以及今天用来提供它们的能力。"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "What we hope for next is really to consolidate everything we have developed.",
+          "es": "Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado.",
+          "zh": "我们希望接下来真正巩固我们已经发展起来的一切。"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "C'est sûrement la que les choses vont se passer dans le cloud.",
+        "translations": {
+          "en": "It's probably where things are going to be in the cloud.",
+          "es": "Probablemente es donde las cosas van a estar en la nube.",
+          "zh": "或有入地入地入云."
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "So I think we have every chance of finding our place.",
+          "es": "Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar.",
+          "zh": "所以,我认为我们有 找到我们的地方的一切机会。"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months. The first innovation is to remove everything that is material and dematerate it in the frame. The second innovation is the ability to control everything from a web interface. It allows you to have more controls and more efficiency. It's important, I think, for our clients, our partners, and even our consultants, questions about this poc. To really see things in real life, it's much more interesting to see that the demes will be supported to discover our know-how, and the capabilities and capabilities to use to offer them today. What we hope for next is really to consolidate everything we have developed. It's probably where things are going to be in the cloud. So I think we have every chance of finding our place."
+      },
+      {
+        "lang": "es",
+        "text": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses. La primera innovación es eliminar todo lo que es material y dematarlo en el marco. La segunda innovación es la capacidad de controlar todo desde una interfaz web. Le permite tener más controles y más eficiencia. Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc. Para ver realmente las cosas en la vida real, es mucho más interesante ver que los demes serán apoyados para descubrir nuestro know-how, y las capacidades y capacidades de utilizar para ofrecerlas hoy. Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado. Probablemente es donde las cosas van a estar en la nube. Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar."
+      },
+      {
+        "lang": "zh",
+        "text": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。 第一项创新是去掉所有物质的东西,在框架里去掉它. 第二个创新是能够从网络界面控制一切。 它可以让你拥有更多的控制和更高的效率. 我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。 要在现实生活中真正看到事物, 更有趣的是, 德姆斯将会被支持去发现我们的知识, 以及今天用来提供它们的能力。 我们希望接下来真正巩固我们已经发展起来的一切。 或有入地入地入云. 所以,我认为我们有 找到我们的地方的一切机会。"
+      }
+    ],
+    "summary": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+    "chapters": [
+      {
+        "title": "Innovation · Équipe travaillé",
+        "start": 4.59
+      },
+      {
+        "title": "Supportés découvrir · Supportés",
+        "start": 37.16
+      },
+      {
+        "title": "Capacités · Utiliser proposer",
+        "start": 57.41
+      },
+      {
+        "title": "Trouver place · Trouver",
+        "start": 68.45
+      }
+    ],
+    "keywords": [
+      "pense",
+      "capacités",
+      "consultants",
+      "innovation",
+      "équipe travaillé",
+      "utiliser",
+      "trouver place",
+      "virons personnes"
+    ],
+    "generated_at": "2026-07-01T10:40:55Z",
+    "id": "327773fa"
+  },
+  "bb6f2b4f": {
+    "video": "42 - POC Parc des Princes V1 .mp4",
+    "language": "fr",
+    "duration_sec": 87.2,
+    "available_subtitle_langs": [
+      "fr",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web. Ça permet d'avoir plus de contrôles et plus d'efficibilité. C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui. Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer. C'est sûrement la que les choses vont se passer dans le cloud. Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+    "segments": [
+      {
+        "start": 4.59,
+        "end": 23.9,
+        "text": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois.",
+        "translations": {
+          "en": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months.",
+          "es": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses.",
+          "zh": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。"
+        }
+      },
+      {
+        "start": 23.9,
+        "end": 32.16,
+        "text": "La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre.",
+        "translations": {
+          "en": "The first innovation is to remove everything that is material and dematerate it in the frame.",
+          "es": "La primera innovación es eliminar todo lo que es material y dematarlo en el marco.",
+          "zh": "第一项创新是去掉所有物质的东西,在框架里去掉它."
+        }
+      },
+      {
+        "start": 32.16,
+        "end": 37.16,
+        "text": "La deuxième innovation, c'est le fait de pouvoir tout contrôler depuis une interface web.",
+        "translations": {
+          "en": "The second innovation is the ability to control everything from a web interface.",
+          "es": "La segunda innovación es la capacidad de controlar todo desde una interfaz web.",
+          "zh": "第二个创新是能够从网络界面控制一切。"
+        }
+      },
+      {
+        "start": 37.16,
+        "end": 40.16,
+        "text": "Ça permet d'avoir plus de contrôles et plus d'efficibilité.",
+        "translations": {
+          "en": "It allows you to have more controls and more efficiency.",
+          "es": "Le permite tener más controles y más eficiencia.",
+          "zh": "它可以让你拥有更多的控制和更高的效率."
+        }
+      },
+      {
+        "start": 46.41,
+        "end": 51.41,
+        "text": "C'est important, je pense, pour nos clients, nos partenaires, et même nos consultants, des questions sur ce poc.",
+        "translations": {
+          "en": "It's important, I think, for our clients, our partners, and even our consultants, questions about this poc.",
+          "es": "Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc.",
+          "zh": "我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。"
+        }
+      },
+      {
+        "start": 51.41,
+        "end": 57.41,
+        "text": "Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire,",
+        "translations": {
+          "en": "To really see things in real life, it's much more interesting to see us that the demes will be supported to discover our know-how,",
+          "es": "Para ver realmente las cosas en la vida real, es mucho más interesante vernos que los demes serán apoyados para descubrir nuestro know-how,",
+          "zh": "真正在现实生活中看到事物, 它更有趣的是看到我们, 德姆斯将会得到支持 发现我们的知识,"
+        }
+      },
+      {
+        "start": 57.41,
+        "end": 61.41,
+        "text": "et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+        "translations": {
+          "en": "and the capabilities and capabilities to use to offer them today.",
+          "es": "y las capacidades y capacidades de utilizar para ofrecerlas hoy.",
+          "zh": "以及今天用来提供它们的能力。"
+        }
+      },
+      {
+        "start": 61.41,
+        "end": 68.45,
+        "text": "Ce qu'on espère pour la suite, c'est vraiment de consolider tout ce qu'on a pu développer.",
+        "translations": {
+          "en": "What we hope for next is really to consolidate everything we have developed.",
+          "es": "Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado.",
+          "zh": "我们希望接下来真正巩固我们已经发展起来的一切。"
+        }
+      },
+      {
+        "start": 68.45,
+        "end": 72.45,
+        "text": "C'est sûrement la que les choses vont se passer dans le cloud.",
+        "translations": {
+          "en": "It's probably where things are going to be in the cloud.",
+          "es": "Probablemente es donde las cosas van a estar en la nube.",
+          "zh": "或有入地入地入云."
+        }
+      },
+      {
+        "start": 72.45,
+        "end": 75.45,
+        "text": "Donc je pense qu'on a toutes les chances d'y trouver notre place.",
+        "translations": {
+          "en": "So I think we have every chance of finding our place.",
+          "es": "Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar.",
+          "zh": "所以,我认为我们有 找到我们的地方的一切机会。"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "By firing six people from the team who worked on this pool, they were mission consultants who no longer worked for three months. The first innovation is to remove everything that is material and dematerate it in the frame. The second innovation is the ability to control everything from a web interface. It allows you to have more controls and more efficiency. It's important, I think, for our clients, our partners, and even our consultants, questions about this poc. To really see things in real life, it's much more interesting to see that the demes will be supported to discover our know-how, and the capabilities and capabilities to use to offer them today. What we hope for next is really to consolidate everything we have developed. It's probably where things are going to be in the cloud. So I think we have every chance of finding our place."
+      },
+      {
+        "lang": "es",
+        "text": "Al despedir a seis personas del equipo que trabajaban en esta piscina, eran consultores de misión que ya no trabajaban durante tres meses. La primera innovación es eliminar todo lo que es material y dematarlo en el marco. La segunda innovación es la capacidad de controlar todo desde una interfaz web. Le permite tener más controles y más eficiencia. Es importante, creo, para nuestros clientes, nuestros socios, e incluso nuestros consultores, preguntas sobre este poc. Para ver realmente las cosas en la vida real, es mucho más interesante ver que los demes serán apoyados para descubrir nuestro know-how, y las capacidades y capacidades de utilizar para ofrecerlas hoy. Lo que esperamos para el próximo es realmente consolidar todo lo que hemos desarrollado. Probablemente es donde las cosas van a estar en la nube. Así que creo que tenemos todas las posibilidades de encontrar nuestro lugar."
+      },
+      {
+        "lang": "zh",
+        "text": "他们开除了在这个游泳池工作的小组的6人,是三个月内不再工作的特派团顾问。 第一项创新是去掉所有物质的东西,在框架里去掉它. 第二个创新是能够从网络界面控制一切。 它可以让你拥有更多的控制和更高的效率. 我认为,对于我们的客户,我们的合作伙伴,甚至我们的顾问来说, 这个问题很重要。 要在现实生活中真正看到事物, 更有趣的是, 德姆斯将会被支持去发现我们的知识, 以及今天用来提供它们的能力。 我们希望接下来真正巩固我们已经发展起来的一切。 或有入地入地入云. 所以,我认为我们有 找到我们的地方的一切机会。"
+      }
+    ],
+    "summary": "En virons six personnes de l'équipe qui ont travaillé sur ce poc, c'est des consultants en mission qui n'ont plus fournit des efforts pendant trois mois. La première innovation, c'est qu'on enlève tout ce qui est matériel et on le dématarise dans le cadre. Pour vraiment voir les choses en réel, c'est beaucoup plus intéressant de nous voir que les démes sera supportés pour découvrir notre savoir-faire, et les capacités et les capacités d'utiliser pour leur proposer aujourd'hui.",
+    "chapters": [
+      {
+        "title": "Innovation · Équipe travaillé",
+        "start": 4.59
+      },
+      {
+        "title": "Supportés découvrir · Supportés",
+        "start": 37.16
+      },
+      {
+        "title": "Capacités · Utiliser proposer",
+        "start": 57.41
+      },
+      {
+        "title": "Trouver place · Trouver",
+        "start": 68.45
+      }
+    ],
+    "keywords": [
+      "pense",
+      "capacités",
+      "consultants",
+      "innovation",
+      "équipe travaillé",
+      "utiliser",
+      "trouver place",
+      "virons personnes"
+    ],
+    "generated_at": "2026-07-01T10:43:59Z",
+    "id": "bb6f2b4f"
+  }
+}

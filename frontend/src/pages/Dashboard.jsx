@@ -1,8 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { logout } from "../auth";
+
+const ENGINE_URL = import.meta.env.VITE_ENGINE_URL ?? "http://localhost:8000";
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 export default function Dashboard({ onCreateSession, onJoinSession, session }) {
   const [joinCode, setJoinCode] = useState("");
+  const [sessions, setSessions] = useState([]);
+
+  useEffect(() => {
+    loadSessions();
+  }, [session?.code]);
+
+  async function loadSessions() {
+    try {
+      const res = await fetch(`${API}/sessions`);
+
+      if (!res.ok) return;
+
+      const data = await res.json();
+      setSessions(data);
+    } catch {
+      setSessions([]);
+    }
+  }
 
   function handleJoin() {
     if (!joinCode.trim()) {
@@ -11,6 +32,25 @@ export default function Dashboard({ onCreateSession, onJoinSession, session }) {
     }
 
     onJoinSession(joinCode.trim());
+  }
+
+  async function deleteSession(code) {
+    if (!window.confirm("Supprimer cette session ?")) return;
+
+    try {
+      const res = await fetch(`${API}/sessions/${code}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        alert("Impossible de supprimer la session.");
+        return;
+      }
+
+      setSessions((prev) => prev.filter((item) => item.code !== code));
+    } catch {
+      alert("Erreur lors de la suppression.");
+    }
   }
 
   return (
@@ -80,6 +120,54 @@ export default function Dashboard({ onCreateSession, onJoinSession, session }) {
           ) : (
             <p className="muted">Aucune session active pour le moment.</p>
           )}
+        </section>
+
+        <section className="sessions-panel past-sessions-panel">
+          <div className="panel-title-row">
+            <h2>Sessions passées</h2>
+            <button onClick={loadSessions}>Actualiser</button>
+          </div>
+
+          {sessions.length ? (
+            sessions.map((pastSession) => (
+              <div className="session-row" key={pastSession.code}>
+                <div>
+                  <h3>{pastSession.title}</h3>
+                  <p>
+                    Code : {pastSession.code}
+                    {pastSession.presenterName
+                      ? ` · Présentateur : ${pastSession.presenterName}`
+                      : ""}
+                  </p>
+                </div>
+
+                <div className="session-actions">
+                  <button onClick={() => onJoinSession(pastSession.code)}>
+                    Ouvrir
+                  </button>
+                  <button
+                    className="delete-session-btn"
+                    onClick={() => deleteSession(pastSession.code)}
+                  >
+                    Supprimer
+                  </button>
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="muted">Aucune session enregistrée.</p>
+          )}
+        </section>
+
+        <section className="sessions-panel engine-panel">
+          <div>
+            <h2>Engine IA / Data</h2>
+            <p className="muted">Ouvrir l'interface Engine dans un nouvel onglet.</p>
+          </div>
+
+          <button onClick={() => window.open(ENGINE_URL, "_blank", "noopener,noreferrer")}>
+            Ouvrir Engine
+          </button>
         </section>
       </main>
     </div>

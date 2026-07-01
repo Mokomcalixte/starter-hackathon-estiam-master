@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Engine · Indexation sémantique — V-Secure</title>
+<style>
+  :root{ --bg:#140b24; --panel:#1f1438; --panel-2:#281a47; --ink:#f3eefb;
+    --muted:#b9a9d4; --accent:#e0218a; --accent-2:#8b2fc9; --line:#392a5c; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Segoe UI",system-ui,-apple-system,sans-serif; line-height:1.55; }
+  header{ padding:24px 32px;
+    background:linear-gradient(120deg,#2a0f3e,#4a1247 60%,#6d1a5a);
+    border-bottom:1px solid var(--line); }
+  header .tag{ font-size:12px; letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent); font-weight:700; }
+  header h1{ margin:6px 0 2px; font-size:25px; }
+  header p{ margin:0; color:var(--muted); font-size:14px; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:24px 32px 60px; }
+
+  .bar{ display:flex; gap:12px; align-items:center; flex-wrap:wrap;
+    background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:16px; margin-bottom:16px; }
+  .bar input[type=file]{ color:var(--muted); flex:1; min-width:200px; }
+  button{ background:linear-gradient(120deg,var(--accent),var(--accent-2));
+    color:#fff; border:none; padding:11px 20px; border-radius:10px;
+    font-size:14px; font-weight:600; cursor:pointer; }
+  button:disabled{ opacity:.5; cursor:not-allowed; }
+  button.ghost{ background:var(--panel-2); border:1px solid var(--line); }
+
+  .status{ font-size:14px; color:var(--muted); margin-bottom:16px; min-height:18px; }
+  .status.err{ color:#ff6b9a; }
+
+  .globalsearch{ display:flex; gap:10px; margin-bottom:16px; }
+  .globalsearch input{ flex:1; padding:11px 14px; border-radius:10px;
+    background:var(--panel-2); border:1px solid var(--line); color:var(--ink); font-size:14px; }
+  .layout{ display:grid; grid-template-columns:240px 1fr; gap:20px; }
+  @media (max-width:900px){ .layout{ grid-template-columns:1fr; } }
+
+  .lib{ background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:14px; align-self:start; }
+  .lib h2,.card h2{ margin:0 0 12px; font-size:12px; letter-spacing:.12em;
+    text-transform:uppercase; color:var(--accent); }
+  .libitem{ padding:9px; border-radius:8px; cursor:pointer; border:1px solid transparent; }
+  .libitem:hover{ background:var(--panel-2); }
+  .libitem.active{ background:var(--panel-2); border-color:var(--accent); }
+  .libitem .name{ font-size:13px; font-weight:600; word-break:break-word; }
+  .libitem .sub{ font-size:11px; color:var(--muted); margin-top:2px; }
+  .libempty{ color:var(--muted); font-size:13px; font-style:italic; }
+
+  .card{ background:var(--panel); border:1px solid var(--line);
+    border-radius:14px; padding:18px; margin-bottom:18px; }
+
+  /* lecteur vidéo + sous-titre overlay */
+  .playerbox{ position:relative; }
+  video{ width:100%; border-radius:10px; background:#000; display:block; }
+  .subtitle{ position:absolute; left:50%; transform:translateX(-50%);
+    bottom:54px; max-width:90%; text-align:center; padding:6px 14px;
+    background:rgba(0,0,0,.72); color:#fff; font-size:18px; border-radius:8px;
+    pointer-events:none; line-height:1.35; }
+  .subtitle:empty{ display:none; }
+
+  .controls{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-top:12px; }
+  .controls label{ font-size:13px; color:var(--muted); }
+  select{ background:var(--panel-2); border:1px solid var(--line); color:var(--ink);
+    padding:8px 12px; border-radius:9px; font-size:14px; }
+  .toggle{ font-size:13px; }
+
+  .meta-row{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0 0; }
+  .pill{ background:var(--panel-2); border:1px solid var(--line);
+    padding:5px 11px; border-radius:999px; font-size:12px; color:var(--muted); }
+  .pill b{ color:var(--ink); }
+  .kw{ display:flex; flex-wrap:wrap; gap:7px; }
+  .kw span{ background:var(--panel-2); border:1px solid var(--accent-2);
+    padding:4px 11px; border-radius:999px; font-size:12px; }
+  .chapter,.seg,.hit{ padding:9px 11px; border-radius:8px; cursor:pointer; border:1px solid transparent; }
+  .chapter:hover,.seg:hover,.hit:hover{ background:var(--panel-2); border-color:var(--line); }
+  .time{ font-variant-numeric:tabular-nums; color:var(--accent); font-weight:700;
+    font-size:12px; margin-right:9px; }
+  .seg.active{ background:rgba(224,33,138,.16); border-color:var(--accent); }
+  .seg .tr{ display:block; color:var(--muted); font-size:13px; margin-top:2px; }
+  .scroll{ max-height:360px; overflow-y:auto; }
+  .empty{ color:var(--muted); font-style:italic; font-size:13px; }
+  .summary{ margin:0; color:var(--ink); font-size:14px; }
+  .twocol{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  @media (max-width:760px){ .twocol{ grid-template-columns:1fr; } }
+  .hit .vid{ font-size:11px; color:var(--accent-2); font-weight:700; }
+</style>
+</head>
+<body>
+<header>
+  <div class="tag">Engine · Pôle 3 — Sujet A</div>
+  <h1>Indexation & sous-titres multilingues</h1>
+  <p>Une vidéo, des sous-titres synchronisés à la demande (FR · EN · ES · 中文) · 42c × ESTIAM</p>
+</header>
+
+<div class="wrap">
+  <div class="bar">
+    <input type="file" id="file" accept="video/*">
+    <button id="go">Indexer la vidéo</button>
+    <button class="ghost" id="refresh">Rafraîchir</button>
+  </div>
+  <div class="status" id="status">Indexez une vidéo, puis choisissez la langue des sous-titres.</div>
+
+  <div class="layout">
+    <div class="lib">
+      <h2>Bibliothèque</h2>
+      <div id="liblist"><p class="libempty">Aucune vidéo indexée.</p></div>
+    </div>
+
+    <div id="detail" style="display:none;">
+      <div class="card">
+        <h2>Lecteur</h2>
+        <div class="playerbox">
+          <video id="player" controls></video>
+          <div class="subtitle" id="subtitle"></div>
+        </div>
+        <div class="controls">
+          <label for="lang">Sous-titres :</label>
+          <select id="lang"></select>
+          <label class="toggle"><input type="checkbox" id="subToggle" checked> afficher</label>
+        </div>
+        <div class="meta-row" id="metaRow"></div>
+      </div>
+
+      <div class="twocol">
+        <div>
+          <div class="card">
+            <h2>Chapitres</h2>
+            <div id="chapters"></div>
+          </div>
+          <div class="card">
+            <h2>Mots-clés</h2>
+            <div class="kw" id="keywords"></div>
+          </div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>Résumé</h2>
+            <p id="summaryBox" class="summary"></p>
+          </div>
+          <div class="card">
+            <h2>Transcription (langue choisie ci-dessus)</h2>
+            <div class="scroll" id="segments"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const fmt=s=>`${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,'0')}`;
+const LABELS={fr:"Français",en:"English",es:"Español",zh:"中文",de:"Deutsch",it:"Italiano",pt:"Português",ar:"العربية"};
+let CURRENT=null, VIDEOURL=null, LANG=null;
+
+// ---- indexation ----
+$('go').onclick=async()=>{
+  const f=$('file').files[0];
+  if(!f){ setStatus('Sélectionnez une vidéo.',true); return; }
+  if(VIDEOURL) URL.revokeObjectURL(VIDEOURL);
+  VIDEOURL=URL.createObjectURL(f);
+  setStatus('Indexation… transcription + traduction des sous-titres (1–3 min).');
+  $('go').disabled=true;
+  const fd=new FormData(); fd.append('file',f);
+  try{
+    const r=await fetch('/index',{method:'POST',body:fd});
+    if(!r.ok) throw new Error('Erreur '+r.status);
+    const d=await r.json();
+    setStatus('Terminé ✓ — choisissez la langue des sous-titres.');
+    await loadLibrary();
+    showVideo(d, VIDEOURL);
+  }catch(e){ setStatus('Échec : '+e.message,true); }
+  finally{ $('go').disabled=false; }
+};
+
+// ---- bibliothèque ----
+async function loadLibrary(){
+  const list=await (await fetch('/videos')).json();
+  if(!list.length){ $('liblist').innerHTML='<p class="libempty">Aucune vidéo indexée.</p>'; return; }
+  $('liblist').innerHTML=list.map(v=>
+    `<div class="libitem" data-id="${v.id}" onclick="openVideo('${v.id}')">
+       <div class="name">${v.video}</div>
+       <div class="sub">${v.language} · ${fmt(v.duration_sec)}</div></div>`).join('');
+}
+$('refresh').onclick=loadLibrary;
+
+async function openVideo(id){
+  const d=await (await fetch('/videos/'+id)).json();
+  showVideo(d, null);
+  document.querySelectorAll('.libitem').forEach(e=>e.classList.toggle('active',e.dataset.id===id));
+}
+
+// ---- affichage ----
+function showVideo(d,url){
+  CURRENT=d;
+  $('detail').style.display='block';
+  if(url) $('player').src=url;
+  // langues dispo
+  const langs=d.available_subtitle_langs||[d.language];
+  LANG=d.language;
+  $('lang').innerHTML=langs.map(l=>`<option value="${l}">${LABELS[l]||l}</option>`).join('');
+  $('lang').value=d.language;
+
+  $('metaRow').innerHTML=`
+    <div class="pill">Langue d'origine <b>${d.language}</b></div>
+    <div class="pill">Durée <b>${fmt(d.duration_sec)}</b></div>
+    <div class="pill">Segments <b>${d.segments.length}</b></div>
+    <div class="pill">Sous-titres <b>${langs.length} langues</b></div>`;
+  $('chapters').innerHTML=d.chapters.map(c=>
+    `<div class="chapter" onclick="seek(${c.start})">
+       <span class="time">${fmt(c.start)}</span>${c.title}</div>`).join('')||'<p class="empty">—</p>';
+  $('keywords').innerHTML=(d.keywords||[]).map(k=>`<span>${k}</span>`).join('');
+  renderSummary();
+  renderSegments();
+}
+
+function summaryFor(lang){
+  if(lang===CURRENT.language) return CURRENT.summary||'—';
+  const t=(CURRENT.translations||[]).find(x=>x.lang===lang);
+  return (t&&t.text)||CURRENT.summary||'—';
+}
+function renderSummary(){ $('summaryBox').textContent=summaryFor(LANG); }
+
+function textFor(seg,lang){
+  if(lang===CURRENT.language) return seg.text;
+  return (seg.translations&&seg.translations[lang])||seg.text;
+}
+
+function renderSegments(){
+  $('segments').innerHTML=CURRENT.segments.map((s,i)=>
+    `<div class="seg" id="seg${i}" onclick="seek(${s.start})">
+       <span class="time">${fmt(s.start)}</span>${s.text}
+       ${LANG!==CURRENT.language?`<span class="tr">${textFor(s,LANG)}</span>`:''}
+     </div>`).join('');
+}
+
+$('lang').onchange=e=>{ LANG=e.target.value; renderSummary(); renderSegments(); };
+
+// ---- sous-titres synchronisés ----
+$('player').addEventListener('timeupdate',()=>{
+  if(!CURRENT) return;
+  const t=$('player').currentTime;
+  const seg=CURRENT.segments.find(s=>t>=s.start&&t<s.end);
+  // overlay
+  if($('subToggle').checked && seg){ $('subtitle').textContent=textFor(seg,LANG); }
+  else { $('subtitle').textContent=''; }
+  // surligne le segment courant dans la liste
+  document.querySelectorAll('.seg').forEach(e=>e.classList.remove('active'));
+  if(seg){ const i=CURRENT.segments.indexOf(seg); const el=$('seg'+i); if(el) el.classList.add('active'); }
+});
+$('subToggle').onchange=()=>{ if(!$('subToggle').checked) $('subtitle').textContent=''; };
+
+function seek(t){ const p=$('player'); if(p.src){ p.currentTime=t; p.play(); } }
+function setStatus(m,err=false){ const s=$('status'); s.textContent=m; s.className='status'+(err?' err':''); }
+loadLibrary();
+</script>
+</body>
+</html>

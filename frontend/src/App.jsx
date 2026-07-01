@@ -52,7 +52,9 @@ function App() {
         videoUrl: `http://localhost:3000/uploads/${foundSession.videoPath}`,
         presenterName: foundSession.presenterName || "Présentateur",
         currentUserName: currentUser?.fullName || "Participant",
-        isPresenter: false,
+        isPresenter:
+          foundSession.createdBy === currentUser?.id ||
+          foundSession.presenterName === currentUser?.fullName,
       });
 
       setPage("watch");
@@ -82,7 +84,13 @@ function App() {
   }
 
   if (connected && page === "watch") {
-    return <WatchRoom session={session} onBack={() => setPage("dashboard")} />;
+    return (
+      <WatchRoom
+        session={session}
+        onBack={() => setPage("dashboard")}
+        onSessionUpdate={saveSession}
+      />
+    );
   }
 
   if (connected) {

@@ -38,5 +38,28 @@ export async function initDatabase() {
     await db.exec(`ALTER TABLE sessions ADD COLUMN presenterName TEXT`);
   }
 
+  const refreshedSessionColumns = await db.all(`PRAGMA table_info(sessions)`);
+  const hasEngineStatus = refreshedSessionColumns.some(
+    (column: { name: string }) => column.name === "engineStatus",
+  );
+  const hasEngineVideoId = refreshedSessionColumns.some(
+    (column: { name: string }) => column.name === "engineVideoId",
+  );
+  const hasEngineMetadata = refreshedSessionColumns.some(
+    (column: { name: string }) => column.name === "engineMetadata",
+  );
+
+  if (!hasEngineStatus) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN engineStatus TEXT`);
+  }
+
+  if (!hasEngineVideoId) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN engineVideoId TEXT`);
+  }
+
+  if (!hasEngineMetadata) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN engineMetadata TEXT`);
+  }
+
   return db;
 }
