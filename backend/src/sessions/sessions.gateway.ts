@@ -197,6 +197,25 @@ export class SessionsGateway implements OnGatewayDisconnect {
     this.server.to(data.code).emit('reaction', data)
   }
 
+  @SubscribeMessage('session-ended')
+  handleSessionEnded(
+    @MessageBody() data: { code: string },
+    @ConnectedSocket() client: Socket,
+  ) {
+    const info = this.clients.get(client.id)
+
+    if (!info?.isPresenter) return
+
+    const room = this.rooms.get(data.code)
+    if (room) {
+      room.isPlaying = false
+      room.updatedAt = Date.now()
+    }
+
+    this.addSystemMessage(data.code, 'La session est terminée')
+    this.server.to(data.code).emit('session-ended', { code: data.code })
+  }
+
   handleDisconnect(client: Socket) {
     const info = this.clients.get(client.id)
 
@@ -274,7 +293,7 @@ export class SessionsGateway implements OnGatewayDisconnect {
     }
 
     if (participant && !silent && !stillConnectedWithSameName) {
-      this.addSystemMessage(code, `${participant.username} a quitte la session`)
+      this.addSystemMessage(code, `${participant.username} a quitté la session`)
     }
 
     this.emitParticipantList(code)
@@ -324,7 +343,7 @@ export class SessionsGateway implements OnGatewayDisconnect {
 
   private addSystemMessage(code: string, message: string) {
     const chatMessage = this.addMessage(code, {
-      username: 'Systeme',
+      username: 'Système',
       message,
       type: 'system',
     })

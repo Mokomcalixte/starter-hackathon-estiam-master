@@ -61,5 +61,31 @@ export async function initDatabase() {
     await db.exec(`ALTER TABLE sessions ADD COLUMN engineMetadata TEXT`);
   }
 
+  const finalSessionColumns = await db.all(`PRAGMA table_info(sessions)`);
+  const hasStatus = finalSessionColumns.some(
+    (column: { name: string }) => column.name === "status",
+  );
+  const hasStartedAt = finalSessionColumns.some(
+    (column: { name: string }) => column.name === "startedAt",
+  );
+  const hasEndedAt = finalSessionColumns.some(
+    (column: { name: string }) => column.name === "endedAt",
+  );
+
+  if (!hasStatus) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN status TEXT DEFAULT 'created'`);
+    await db.exec(
+      `UPDATE sessions SET status = 'created' WHERE status IS NULL OR status = ''`,
+    );
+  }
+
+  if (!hasStartedAt) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN startedAt DATETIME`);
+  }
+
+  if (!hasEndedAt) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN endedAt DATETIME`);
+  }
+
   return db;
 }

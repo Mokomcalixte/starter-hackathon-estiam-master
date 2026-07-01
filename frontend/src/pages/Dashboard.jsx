@@ -1,16 +1,41 @@
-import { useEffect, useState } from "react";
-import { logout } from "../auth";
+import { useEffect, useMemo, useState } from "react";
+import { getUser, logout } from "../auth";
 
 const ENGINE_URL = import.meta.env.VITE_ENGINE_URL ?? "http://localhost:8000";
 const API = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
-export default function Dashboard({ onCreateSession, onJoinSession, session }) {
+const STATUS_LABELS = {
+  created: "Préparée",
+  active: "En cours",
+  ended: "Terminée",
+};
+
+function hiddenSessionsKey() {
+  const user = getUser();
+  return `teamstream_hidden_sessions_${user?.id || user?.email || "anonymous"}`;
+}
+
+function readHiddenSessions() {
+  try {
+    return JSON.parse(localStorage.getItem(hiddenSessionsKey()) || "[]");
+  } catch {
+    return [];
+  }
+}
+
+export default function Dashboard({ refreshKey, onCreateSession, onJoinSession }) {
   const [joinCode, setJoinCode] = useState("");
   const [sessions, setSessions] = useState([]);
+  const [hiddenSessions, setHiddenSessions] = useState(readHiddenSessions);
+
+  const visibleSessions = useMemo(
+    () => sessions.filter((item) => !hiddenSessions.includes(item.code)),
+    [sessions, hiddenSessions]
+  );
 
   useEffect(() => {
     loadSessions();
-  }, [session?.code]);
+  }, [refreshKey]);
 
   async function loadSessions() {
     try {
@@ -34,23 +59,14 @@ export default function Dashboard({ onCreateSession, onJoinSession, session }) {
     onJoinSession(joinCode.trim());
   }
 
-  async function deleteSession(code) {
-    if (!window.confirm("Supprimer cette session ?")) return;
+  function removeFromMyList(code) {
+    if (!window.confirm("Retirer cette session de votre liste ?")) return;
 
-    try {
-      const res = await fetch(`${API}/sessions/${code}`, {
-        method: "DELETE",
-      });
-
-      if (!res.ok) {
-        alert("Impossible de supprimer la session.");
-        return;
-      }
-
-      setSessions((prev) => prev.filter((item) => item.code !== code));
-    } catch {
-      alert("Erreur lors de la suppression.");
-    }
+    setHiddenSessions((prev) => {
+      const next = [...new Set([...prev, code])];
+      localStorage.setItem(hiddenSessionsKey(), JSON.stringify(next));
+      return next;
+    });
   }
 
   return (
@@ -103,59 +119,45 @@ export default function Dashboard({ onCreateSession, onJoinSession, session }) {
           </div>
         </section>
 
-        <section className="sessions-panel">
-          <h2>Session en cours</h2>
-
-          {session ? (
-            <div className="session-row">
-              <div>
-                <h3>{session.title}</h3>
-                <p>Code : {session.code}</p>
-              </div>
-
-              <button onClick={() => onJoinSession(session.code)}>
-                Ouvrir
-              </button>
-            </div>
-          ) : (
-            <p className="muted">Aucune session active pour le moment.</p>
-          )}
-        </section>
-
         <section className="sessions-panel past-sessions-panel">
           <div className="panel-title-row">
-            <h2>Sessions passées</h2>
+            <h2>Sessions enregistrées</h2>
             <button onClick={loadSessions}>Actualiser</button>
           </div>
 
-          {sessions.length ? (
-            sessions.map((pastSession) => (
-              <div className="session-row" key={pastSession.code}>
+          {visibleSessions.length ? (
+            visibleSessions.map((item) => (
+              <div className="session-row" key={item.code}>
                 <div>
-                  <h3>{pastSession.title}</h3>
+                  <div className="session-title-line">
+                    <h3>{item.title}</h3>
+                    <span className={`session-status ${item.status || "created"}`}>
+                      {STATUS_LABELS[item.status] || STATUS_LABELS.created}
+                    </span>
+                  </div>
                   <p>
-                    Code : {pastSession.code}
-                    {pastSession.presenterName
-                      ? ` · Présentateur : ${pastSession.presenterName}`
+                    Code : {item.code}
+                    {item.presenterName
+                      ? ` · Présentateur : ${item.presenterName}`
                       : ""}
                   </p>
                 </div>
 
                 <div className="session-actions">
-                  <button onClick={() => onJoinSession(pastSession.code)}>
+                  <button onClick={() => onJoinSession(item.code)}>
                     Ouvrir
                   </button>
                   <button
                     className="delete-session-btn"
-                    onClick={() => deleteSession(pastSession.code)}
+                    onClick={() => removeFromMyList(item.code)}
                   >
-                    Supprimer
+                    Retirer
                   </button>
                 </div>
               </div>
             ))
           ) : (
-            <p className="muted">Aucune session enregistrée.</p>
+            <p className="muted">Aucune session enregistrée dans votre liste.</p>
           )}
         </section>
 
@@ -165,7 +167,11 @@ export default function Dashboard({ onCreateSession, onJoinSession, session }) {
             <p className="muted">Ouvrir l'interface Engine dans un nouvel onglet.</p>
           </div>
 
-          <button onClick={() => window.open(ENGINE_URL, "_blank", "noopener,noreferrer")}>
+          <button
+            onClick={() =>
+              window.open(ENGINE_URL, "_blank", "noopener,noreferrer")
+            }
+          >
             Ouvrir Engine
           </button>
         </section>

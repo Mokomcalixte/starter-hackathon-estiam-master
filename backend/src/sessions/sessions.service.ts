@@ -12,13 +12,21 @@ export class SessionsService {
     presenterName?: string
   }) {
     const db = await initDatabase()
-
     const code = 'TS-' + Math.floor(1000 + Math.random() * 9000)
 
     await db.run(
       `
-      INSERT INTO sessions (title, description, videoName, videoPath, code, createdBy, presenterName)
-      VALUES (?, ?, ?, ?, ?, ?, ?)
+      INSERT INTO sessions (
+        title,
+        description,
+        videoName,
+        videoPath,
+        code,
+        createdBy,
+        presenterName,
+        status
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
       `,
       body.title,
       body.description ?? '',
@@ -27,6 +35,7 @@ export class SessionsService {
       code,
       body.createdBy ?? null,
       body.presenterName ?? '',
+      'created',
     )
 
     return this.findByCode(code)
@@ -61,6 +70,40 @@ export class SessionsService {
       LEFT JOIN users ON users.id = sessions.createdBy
       ORDER BY sessions.createdAt DESC
     `)
+  }
+
+  async startByCode(code: string) {
+    await this.findByCode(code)
+
+    const db = await initDatabase()
+    await db.run(
+      `
+      UPDATE sessions
+      SET status = ?, startedAt = COALESCE(startedAt, CURRENT_TIMESTAMP), endedAt = NULL
+      WHERE code = ?
+      `,
+      'active',
+      code,
+    )
+
+    return this.findByCode(code)
+  }
+
+  async endByCode(code: string) {
+    await this.findByCode(code)
+
+    const db = await initDatabase()
+    await db.run(
+      `
+      UPDATE sessions
+      SET status = ?, endedAt = CURRENT_TIMESTAMP
+      WHERE code = ?
+      `,
+      'ended',
+      code,
+    )
+
+    return this.findByCode(code)
   }
 
   async deleteByCode(code: string) {
@@ -107,11 +150,11 @@ export class SessionsService {
   }
 
   async deleteAll() {
-  const db = await initDatabase()
+    const db = await initDatabase()
 
-  await db.run('DELETE FROM sessions')
-  await db.run("DELETE FROM sqlite_sequence WHERE name = 'sessions'")
+    await db.run('DELETE FROM sessions')
+    await db.run("DELETE FROM sqlite_sequence WHERE name = 'sessions'")
 
-  return { message: 'Sessions supprimées' }
-}
+    return { message: 'Sessions supprimées' }
+  }
 }

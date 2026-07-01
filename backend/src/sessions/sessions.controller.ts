@@ -60,6 +60,16 @@ export class SessionsController {
     return this.sessionsService.deleteByCode(code)
   }
 
+  @Post(':code/start')
+  start(@Param('code') code: string) {
+    return this.sessionsService.startByCode(code)
+  }
+
+  @Post(':code/end')
+  end(@Param('code') code: string) {
+    return this.sessionsService.endByCode(code)
+  }
+
   @Post(':code/analyze')
   async analyze(@Param('code') code: string) {
     const session = await this.sessionsService.findByCode(code)

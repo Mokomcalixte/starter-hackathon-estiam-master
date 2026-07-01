@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+
 export default function CreateSession({ onCancel, onCreate, currentUser }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -21,14 +23,16 @@ export default function CreateSession({ onCancel, onCreate, currentUser }) {
       formData.append("title", title);
       formData.append("description", description);
       formData.append("video", videoFile);
+
       if (currentUser?.id) {
         formData.append("createdBy", currentUser.id);
       }
+
       if (currentUser?.fullName) {
         formData.append("presenterName", currentUser.fullName);
       }
 
-      const res = await fetch("http://localhost:3000/sessions", {
+      const res = await fetch(`${API}/sessions`, {
         method: "POST",
         body: formData,
       });
@@ -41,7 +45,7 @@ export default function CreateSession({ onCancel, onCreate, currentUser }) {
 
       onCreate({
         ...savedSession,
-        videoUrl: `http://localhost:3000/uploads/${savedSession.videoPath}`,
+        videoUrl: `${API}/uploads/${savedSession.videoPath}`,
         presenter: "Vous",
         participants: ["Vous"],
       });
@@ -84,7 +88,7 @@ export default function CreateSession({ onCancel, onCreate, currentUser }) {
           onChange={(e) => setVideoFile(e.target.files[0])}
         />
 
-        {videoFile && <p className="file-name">🎥 {videoFile.name}</p>}
+        {videoFile && <p className="file-name">Vidéo : {videoFile.name}</p>}
 
         <button className="primary-btn" type="submit" disabled={loading}>
           {loading ? "Création..." : "Créer la session"}

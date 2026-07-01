@@ -25,7 +25,7 @@ function normalizeMessage(message) {
     return {
       id: message,
       type: "system",
-      username: "Systeme",
+      username: "Système",
       message,
       text: message,
     };
@@ -55,6 +55,9 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   const [chatText, setChatText] = useState("");
   const [reactions, setReactions] = useState([]);
   const [copied, setCopied] = useState(false);
+  const [sessionStatus, setSessionStatus] = useState(
+    session?.status || "created"
+  );
   const [engineStatus, setEngineStatus] = useState(
     session?.engineStatus || (parseEngineMetadata(session) ? "ready" : "idle")
   );
@@ -95,7 +98,38 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
     setEngineMetadata(metadata);
     setEngineStatus(session?.engineStatus || (metadata ? "ready" : "idle"));
     setSubtitleLang(metadata?.language || "");
+    setSessionStatus(session?.status || "created");
   }, [session]);
+
+  useEffect(() => {
+    if (!session?.code || !session?.isPresenter || session.status === "ended") {
+      return;
+    }
+
+    async function startSession() {
+      try {
+        const res = await fetch(`${API}/sessions/${session.code}/start`, {
+          method: "POST",
+        });
+
+        if (!res.ok) return;
+
+        const updatedSession = await res.json();
+        setSessionStatus(updatedSession.status || "active");
+        onSessionUpdate?.({
+          ...session,
+          ...updatedSession,
+          videoUrl: session.videoUrl,
+          currentUserName: session.currentUserName,
+          isPresenter: session.isPresenter,
+        });
+      } catch {
+        setSessionStatus(session.status || "created");
+      }
+    }
+
+    startSession();
+  }, [session?.code, session?.isPresenter]);
 
   useEffect(() => {
     if (!session?.code) return;
@@ -185,6 +219,14 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
       }, 3000);
     }
 
+    function handleSessionEnded() {
+      setSessionStatus("ended");
+      socket.emit("leave-session", {
+        code: session.code,
+      });
+      onBack();
+    }
+
     socket.on("connect", joinSession);
     socket.on("sync-state", applySyncState);
     socket.on("participant-list", handleParticipantList);
@@ -192,6 +234,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
     socket.on("video-control", handleVideoControl);
     socket.on("chat-message", handleChatMessage);
     socket.on("reaction", handleReaction);
+    socket.on("session-ended", handleSessionEnded);
 
     if (socket.connected) {
       joinSession();
@@ -207,12 +250,14 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
       socket.off("video-control", handleVideoControl);
       socket.off("chat-message", handleChatMessage);
       socket.off("reaction", handleReaction);
+      socket.off("session-ended", handleSessionEnded);
     };
   }, [
     session?.code,
     session?.currentUserName,
     session?.isPresenter,
     applySyncState,
+    onBack,
   ]);
 
   useEffect(() => {
@@ -257,12 +302,14 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   }
 
   function emitControl(action, time, extra = {}) {
-    if (!session.isPresenter) return;
+    if (!session.isPresenter || sessionStatus === "ended") return;
     socket.emit("video-control", { code: session.code, action, time, ...extra });
   }
 
   function togglePlay() {
-    if (!videoRef.current || !session.isPresenter) return;
+    if (!videoRef.current || !session.isPresenter || sessionStatus === "ended") {
+      return;
+    }
 
     const time = videoRef.current.currentTime;
 
@@ -276,26 +323,34 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   }
 
   function forward() {
-    if (!videoRef.current || !session.isPresenter) return;
+    if (!videoRef.current || !session.isPresenter || sessionStatus === "ended") {
+      return;
+    }
     videoRef.current.currentTime += 10;
     emitControl("seek", videoRef.current.currentTime);
   }
 
   function backward() {
-    if (!videoRef.current || !session.isPresenter) return;
+    if (!videoRef.current || !session.isPresenter || sessionStatus === "ended") {
+      return;
+    }
     videoRef.current.currentTime = Math.max(0, videoRef.current.currentTime - 10);
     emitControl("seek", videoRef.current.currentTime);
   }
 
   function restart() {
-    if (!videoRef.current || !session.isPresenter) return;
+    if (!videoRef.current || !session.isPresenter || sessionStatus === "ended") {
+      return;
+    }
     videoRef.current.currentTime = 0;
     videoRef.current.play().catch(() => {});
     emitControl("play", 0);
   }
 
   function changeRate(rate) {
-    if (!videoRef.current || !session.isPresenter) return;
+    if (!videoRef.current || !session.isPresenter || sessionStatus === "ended") {
+      return;
+    }
     videoRef.current.playbackRate = rate;
     setPlaybackRate(rate);
     emitControl("rate", videoRef.current.currentTime, { rate });
@@ -415,8 +470,45 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
     onBack();
   }
 
+  async function endSession() {
+    if (!session?.isPresenter) return;
+    if (!window.confirm("Terminer cette session ?")) return;
+
+    try {
+      const res = await fetch(`${API}/sessions/${session.code}/end`, {
+        method: "POST",
+      });
+
+      if (!res.ok) {
+        alert("Impossible de terminer la session.");
+        return;
+      }
+
+      const updatedSession = await res.json();
+      setSessionStatus(updatedSession.status || "ended");
+      onSessionUpdate?.({
+        ...session,
+        ...updatedSession,
+        videoUrl: session.videoUrl,
+        currentUserName: session.currentUserName,
+        isPresenter: session.isPresenter,
+      });
+      socket.emit("session-ended", { code: session.code });
+      socket.emit("leave-session", { code: session.code });
+      onBack();
+    } catch {
+      alert("Erreur lors de la fermeture de la session.");
+    }
+  }
+
   const availableSubtitleLangs =
     engineMetadata?.available_subtitle_langs || [];
+  const statusLabel =
+    sessionStatus === "ended"
+      ? "Terminée"
+      : sessionStatus === "active"
+        ? "En cours"
+        : "Préparée";
 
   return (
     <div className="watch-page">
@@ -436,11 +528,17 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
         <div className="header-info">
           <h1>{session.title}</h1>
           <p>
-            <strong>Code :</strong> {session.code} &bull;{" "}
+            <strong>Code :</strong> {session.code} ·{" "}
             <strong>Rôle :</strong>{" "}
-            {session.isPresenter ? "Présentateur" : "Invité"}
+            {session.isPresenter ? "Présentateur" : "Invité"} ·{" "}
+            <strong>Statut :</strong> {statusLabel}
           </p>
         </div>
+        {session.isPresenter && sessionStatus !== "ended" && (
+          <button className="end-session-btn" onClick={endSession}>
+            Terminer
+          </button>
+        )}
         <button className="copy-btn" onClick={copyCode}>
           {copied ? "Copié !" : "Copier le code"}
         </button>
@@ -465,19 +563,19 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
             )}
           </div>
 
-          {session.isPresenter ? (
+          {session.isPresenter && sessionStatus !== "ended" ? (
             <div className="player-controls">
               <button className="control-btn" onClick={backward} title="Reculer 10s">
-                ⏪
+                {"\u23EA"}
               </button>
               <button className="control-btn play-btn" onClick={togglePlay}>
-                {isPlaying ? "⏸" : "▶"}
+                {isPlaying ? "\u23F8" : "\u25B6"}
               </button>
               <button className="control-btn" onClick={forward} title="Avancer 10s">
-                ⏩
+                {"\u23E9"}
               </button>
               <button className="control-btn" onClick={restart} title="Recommencer">
-                ↺
+                {"\u21BA"}
               </button>
 
               <div className="rate-control">
@@ -492,9 +590,15 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
                 ))}
               </div>
             </div>
-          ) : (
+          ) : sessionStatus !== "ended" ? (
             <div className="viewer-notice">
               Vous êtes invité. Seul le présentateur contrôle la vidéo.
+            </div>
+          ) : null}
+
+          {sessionStatus === "ended" && (
+            <div className="viewer-notice">
+              Cette session est terminée. Vous pouvez revoir la vidéo.
             </div>
           )}
 
@@ -625,7 +729,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
                 value={chatText}
                 onChange={(e) => setChatText(e.target.value)}
               />
-              <button type="submit">➤</button>
+              <button type="submit">{"\u27A4"}</button>
             </form>
           </div>
         </aside>

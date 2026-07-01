@@ -40,6 +40,20 @@
 }
 .copy-btn:hover { background: #4f46e5; }
 
+.end-session-btn {
+  background: rgba(248, 113, 113, 0.16);
+  color: #fecaca;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+  border-radius: 0.75rem;
+  padding: 0.7rem 1rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.end-session-btn:hover {
+  background: rgba(248, 113, 113, 0.24);
+}
+
 /* Layout principal */
 .watch-layout {
   display: grid;

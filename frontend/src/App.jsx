@@ -7,6 +7,7 @@ import CreateSession from "./pages/CreateSession";
 import WatchRoom from "./pages/WatchRoom";
 import "./styles/auth.css";
 
+const API = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 const CURRENT_SESSION_KEY = "teamstream_current_session";
 
 function getStoredSession() {
@@ -27,6 +28,7 @@ function getStoredSession() {
 function App() {
   const [page, setPage] = useState("login");
   const [session, setSession] = useState(getStoredSession);
+  const [dashboardRefreshKey, setDashboardRefreshKey] = useState(0);
 
   const connected = Boolean(getToken());
   const currentUser = getUser();
@@ -36,9 +38,14 @@ function App() {
     localStorage.setItem(CURRENT_SESSION_KEY, JSON.stringify(nextSession));
   }
 
+  function goDashboard() {
+    setDashboardRefreshKey((value) => value + 1);
+    setPage("dashboard");
+  }
+
   async function handleJoinSession(code) {
     try {
-      const res = await fetch(`http://localhost:3000/sessions/${code}`);
+      const res = await fetch(`${API}/sessions/${code}`);
 
       if (!res.ok) {
         alert("Session introuvable.");
@@ -49,7 +56,7 @@ function App() {
 
       saveSession({
         ...foundSession,
-        videoUrl: `http://localhost:3000/uploads/${foundSession.videoPath}`,
+        videoUrl: `${API}/uploads/${foundSession.videoPath}`,
         presenterName: foundSession.presenterName || "Présentateur",
         currentUserName: currentUser?.fullName || "Participant",
         isPresenter:
@@ -58,7 +65,7 @@ function App() {
       });
 
       setPage("watch");
-    } catch (error) {
+    } catch {
       alert("Erreur lors de la recherche de la session.");
     }
   }
@@ -66,7 +73,7 @@ function App() {
   if (connected && page === "create") {
     return (
       <CreateSession
-        onCancel={() => setPage("dashboard")}
+        onCancel={goDashboard}
         currentUser={currentUser}
         onCreate={(newSession) => {
           saveSession({
@@ -87,7 +94,7 @@ function App() {
     return (
       <WatchRoom
         session={session}
-        onBack={() => setPage("dashboard")}
+        onBack={goDashboard}
         onSessionUpdate={saveSession}
       />
     );
@@ -96,7 +103,7 @@ function App() {
   if (connected) {
     return (
       <Dashboard
-        session={session}
+        refreshKey={dashboardRefreshKey}
         onCreateSession={() => setPage("create")}
         onJoinSession={handleJoinSession}
       />
