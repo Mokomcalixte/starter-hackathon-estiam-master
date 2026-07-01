@@ -38,6 +38,24 @@ function normalizeMessage(message) {
   };
 }
 
+function engineErrorMessage(payload) {
+  if (!payload) return "Analyse IA impossible";
+  if (typeof payload === "string") return payload;
+
+  const response = payload.message || payload.error || payload;
+  if (typeof response === "string") return response;
+
+  const nestedMessage =
+    response?.message ||
+    response?.payload?.detail ||
+    response?.payload?.message ||
+    response?.cause;
+
+  if (typeof nestedMessage === "string") return nestedMessage;
+
+  return JSON.stringify(response);
+}
+
 export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   const videoRef = useRef(null);
   const isHandlingRemote = useRef(false);
@@ -419,7 +437,12 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
       });
 
       if (!res.ok) {
-        throw new Error("Analyse IA impossible");
+        const contentType = res.headers.get("content-type") || "";
+        const payload = contentType.includes("application/json")
+          ? await res.json()
+          : await res.text();
+
+        throw new Error(engineErrorMessage(payload));
       }
 
       const updatedSession = await res.json();
