@@ -81,11 +81,13 @@ export class SessionsController {
     const filePath = join(process.cwd(), 'uploads', session.videoPath)
     const startedSession = await this.sessionsService.markEngineAnalysisStarted(code)
 
-    void this.runEngineAnalysis(
+    this.runEngineAnalysis(
       code,
       filePath,
       session.videoName || session.videoPath,
-    )
+    ).catch(err => {
+      console.error('Unhandled error executing runEngineAnalysis:', err);
+    });
 
     return startedSession
   }
@@ -99,7 +101,9 @@ export class SessionsController {
 
       await this.sessionsService.updateEngineAnalysis(code, metadata)
     } catch (error) {
-      await this.sessionsService.markEngineAnalysisFailed(code, error)
+      await this.sessionsService.markEngineAnalysisFailed(code, error).catch(err => {
+        console.error('Failed to mark engine analysis as failed:', err);
+      });
     }
   }
 
