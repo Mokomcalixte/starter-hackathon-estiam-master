@@ -1,8 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common'
 import { initDatabase } from '../../database/database'
 
 @Injectable()
-export class SessionsService {
+export class SessionsService implements OnModuleInit {
+  async onModuleInit() {
+    await initDatabase()
+  }
+
   async create(body: {
     title: string
     description?: string

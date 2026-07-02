@@ -24,6 +24,8 @@ services:
     environment:
       - NODE_ENV=development
       - ENGINE_URL=http://engine:8000
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
     depends_on:
       - engine
 
@@ -49,3 +51,5 @@ services:
       - /app/node_modules
     environment:
       - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=true
+      - WATCHPACK_POLLING=true
