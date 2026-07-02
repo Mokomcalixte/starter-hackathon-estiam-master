@@ -28,6 +28,7 @@ import errno
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 import semantic_indexing as si
 
@@ -39,9 +40,12 @@ MODEL_SIZE = os.environ.get("WHISPER_MODEL", "small")
 TARGET_LANGS = ("en", "es", "zh")
 LIBRARY_FILE = "library.json"
 TMP_DIR = os.environ.get("ENGINE_TMP_DIR", os.path.join(os.getcwd(), "tmp"))
+MEDIA_DIR = os.environ.get("ENGINE_MEDIA_DIR", os.path.join(os.getcwd(), "media"))
 LIBRARY = {}  # vid -> metadata complet
 
 os.makedirs(TMP_DIR, exist_ok=True)
+os.makedirs(MEDIA_DIR, exist_ok=True)
+app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
 
 
 def load_library():
@@ -85,7 +89,12 @@ async def index(file: UploadFile = File(...)):
                                  transcript, si._duration(tmp.name), TARGET_LANGS)
 
         vid = uuid.uuid4().hex[:8]
+        media_name = f"{vid}{suffix}"
+        media_path = os.path.join(MEDIA_DIR, media_name)
+        shutil.copyfile(tmp.name, media_path)
+
         meta["id"] = vid
+        meta["video_url"] = f"/media/{media_name}"
         LIBRARY[vid] = meta
         save_library()
         return JSONResponse(meta)
@@ -119,7 +128,7 @@ def list_videos():
     return [
         {"id": v["id"], "video": v["video"], "language": v["language"],
          "duration_sec": v["duration_sec"], "keywords": v.get("keywords", []),
-         "summary": v.get("summary", "")}
+         "summary": v.get("summary", ""), "video_url": v.get("video_url", "")}
         for v in LIBRARY.values()
     ]
 
@@ -152,6 +161,11 @@ def search(q: str):
 @app.delete("/videos/{vid}")
 def delete_video(vid: str):
     if vid in LIBRARY:
+        video_url = LIBRARY[vid].get("video_url", "")
+        if video_url.startswith("/media/"):
+            media_path = os.path.join(MEDIA_DIR, os.path.basename(video_url))
+            if os.path.exists(media_path):
+                os.remove(media_path)
         del LIBRARY[vid]
         save_library()
     return {"deleted": vid}

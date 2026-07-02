@@ -198,6 +198,8 @@ function showVideo(d,url){
   CURRENT=d;
   $('detail').style.display='block';
   if(url) $('player').src=url;
+  else if(d.video_url) $('player').src=d.video_url;
+  else $('player').removeAttribute('src');
   // langues dispo
   const langs=d.available_subtitle_langs||[d.language];
   LANG=d.language;
