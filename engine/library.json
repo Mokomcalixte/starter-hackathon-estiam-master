@@ -1485,5 +1485,64 @@
     ],
     "generated_at": "2026-07-01T18:55:15Z",
     "id": "6db398fd"
+  },
+  "244272a0": {
+    "video": "The Wait  - 1 Minute Short Film _ Award Winning.mp4",
+    "language": "en",
+    "duration_sec": 60.0,
+    "available_subtitle_langs": [
+      "en",
+      "en",
+      "es",
+      "zh"
+    ],
+    "transcript": "Yeah, bro, we gotta wait till this pandemic bullshit is over. Yeah, I'll see you later in like two months",
+    "segments": [
+      {
+        "start": 0.18,
+        "end": 8.02,
+        "text": "Yeah, bro, we gotta wait till this pandemic bullshit is over. Yeah, I'll see you later in like two months",
+        "translations": {
+          "en": "Yeah, bro, we gotta wait till this pandemic bullshit is over. Yeah, I'll see you later in like two months",
+          "es": "[en->es non installée]",
+          "zh": "[en->zh non installée]"
+        }
+      }
+    ],
+    "translations": [
+      {
+        "lang": "en",
+        "text": "Yeah, bro, we gotta wait till this pandemic bullshit is over. Yeah, I'll see you later in like two months"
+      },
+      {
+        "lang": "es",
+        "text": "[paire en->es non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      },
+      {
+        "lang": "zh",
+        "text": "[paire en->zh non installée]",
+        "note": "lancer prefetch_translation.py pour activer"
+      }
+    ],
+    "summary": "Yeah, bro, we gotta wait till this pandemic bullshit is over. Yeah, I'll see you later in like two months",
+    "chapters": [
+      {
+        "title": "Yeah · Yeah later",
+        "start": 0.18
+      }
+    ],
+    "keywords": [
+      "yeah",
+      "wait till",
+      "till this",
+      "this pandemic",
+      "pandemic bullshit",
+      "over",
+      "months",
+      "like"
+    ],
+    "generated_at": "2026-07-02T08:49:27Z",
+    "id": "244272a0"
   }
 }
