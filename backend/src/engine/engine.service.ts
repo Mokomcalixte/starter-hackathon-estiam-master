@@ -76,8 +76,10 @@ export class EngineService {
         : await response.text()
 
       if (!response.ok) {
+        const message = this.enginePayloadMessage(payload)
+
         throw new BadGatewayException({
-          message: 'Erreur retournee par le service Engine',
+          message,
           status: response.status,
           payload,
         })
@@ -95,5 +97,29 @@ export class EngineService {
         cause: String(error),
       })
     }
+  }
+
+  private enginePayloadMessage(payload: unknown) {
+    if (typeof payload === 'string') {
+      return payload
+    }
+
+    if (payload && typeof payload === 'object') {
+      const body = payload as { detail?: unknown; message?: unknown; error?: unknown }
+
+      if (typeof body.detail === 'string') {
+        return body.detail
+      }
+
+      if (typeof body.message === 'string') {
+        return body.message
+      }
+
+      if (typeof body.error === 'string') {
+        return body.error
+      }
+    }
+
+    return 'Erreur retournee par le service Engine'
   }
 }

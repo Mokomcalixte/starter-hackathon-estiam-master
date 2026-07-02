@@ -48,6 +48,9 @@ export async function initDatabase() {
   const hasEngineMetadata = refreshedSessionColumns.some(
     (column: { name: string }) => column.name === "engineMetadata",
   );
+  const hasEngineError = refreshedSessionColumns.some(
+    (column: { name: string }) => column.name === "engineError",
+  );
 
   if (!hasEngineStatus) {
     await db.exec(`ALTER TABLE sessions ADD COLUMN engineStatus TEXT`);
@@ -59,6 +62,10 @@ export async function initDatabase() {
 
   if (!hasEngineMetadata) {
     await db.exec(`ALTER TABLE sessions ADD COLUMN engineMetadata TEXT`);
+  }
+
+  if (!hasEngineError) {
+    await db.exec(`ALTER TABLE sessions ADD COLUMN engineError TEXT`);
   }
 
   const finalSessionColumns = await db.all(`PRAGMA table_info(sessions)`);

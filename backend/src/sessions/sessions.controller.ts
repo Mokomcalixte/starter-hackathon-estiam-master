@@ -73,18 +73,33 @@ export class SessionsController {
   @Post(':code/analyze')
   async analyze(@Param('code') code: string) {
     const session = await this.sessionsService.findByCode(code)
-    const filePath = join(process.cwd(), 'uploads', session.videoPath)
 
+    if (session.engineStatus === 'ready' || session.engineStatus === 'analyzing') {
+      return session
+    }
+
+    const filePath = join(process.cwd(), 'uploads', session.videoPath)
+    const startedSession = await this.sessionsService.markEngineAnalysisStarted(code)
+
+    void this.runEngineAnalysis(
+      code,
+      filePath,
+      session.videoName || session.videoPath,
+    )
+
+    return startedSession
+  }
+
+  private async runEngineAnalysis(code: string, filePath: string, videoName: string) {
     try {
       const metadata = await this.engineService.indexFile(
         filePath,
-        session.videoName || session.videoPath,
+        videoName,
       )
 
-      return this.sessionsService.updateEngineAnalysis(code, metadata)
+      await this.sessionsService.updateEngineAnalysis(code, metadata)
     } catch (error) {
-      await this.sessionsService.markEngineAnalysisFailed(code)
-      throw error
+      await this.sessionsService.markEngineAnalysisFailed(code, error)
     }
   }
 

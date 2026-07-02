@@ -96,6 +96,7 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   const [subtitleLang, setSubtitleLang] = useState("");
   const [showSubtitles, setShowSubtitles] = useState(true);
   const [currentSubtitle, setCurrentSubtitle] = useState("");
+  const [isVideoShielded, setIsVideoShielded] = useState(false);
 
   const applySyncState = useCallback(
     ({ isPlaying, currentTime, playbackRate }) => {
@@ -132,6 +133,41 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
   }, [session]);
 
   useEffect(() => {
+    let shieldTimer;
+
+    const shieldVideo = () => {
+      setIsVideoShielded(true);
+      clearTimeout(shieldTimer);
+      shieldTimer = setTimeout(() => setIsVideoShielded(false), 1500);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        setIsVideoShielded(true);
+      } else {
+        shieldVideo();
+      }
+    };
+
+    const handleKeyDown = (event) => {
+      if (event.key === "PrintScreen") {
+        shieldVideo();
+      }
+    };
+
+    window.addEventListener("blur", shieldVideo);
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearTimeout(shieldTimer);
+      window.removeEventListener("blur", shieldVideo);
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!session?.code || !session?.isPresenter || session.status === "ended") {
       return;
     }
@@ -160,6 +196,50 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
 
     startSession();
   }, [session?.code, session?.isPresenter]);
+
+  useEffect(() => {
+    if (!session?.code || engineStatus !== "analyzing") return;
+
+    let cancelled = false;
+
+    async function refreshAnalysisStatus() {
+      try {
+        const res = await fetch(`${API}/sessions/${session.code}`);
+        if (!res.ok) return;
+
+        const updatedSession = await res.json();
+        if (cancelled) return;
+
+        const metadata = parseEngineMetadata(updatedSession);
+        setEngineStatus(updatedSession.engineStatus || (metadata ? "ready" : "idle"));
+        setEngineMetadata(metadata);
+        setEngineError(updatedSession.engineError || "");
+
+        if (metadata) {
+          setSubtitleLang(metadata.language || "");
+          setCurrentSubtitle("");
+        }
+
+        onSessionUpdate?.({
+          ...session,
+          ...updatedSession,
+          videoUrl: session.videoUrl,
+          currentUserName: session.currentUserName,
+          isPresenter: session.isPresenter,
+        });
+      } catch {
+        // The next interval will retry while the analysis is still pending.
+      }
+    }
+
+    refreshAnalysisStatus();
+    const interval = setInterval(refreshAnalysisStatus, 5000);
+
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [engineStatus, session?.code]);
 
   useEffect(() => {
     if (!session?.code) return;
@@ -461,8 +541,9 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
       const updatedSession = await res.json();
       const metadata = parseEngineMetadata(updatedSession);
 
-      setEngineStatus(updatedSession.engineStatus || "ready");
+      setEngineStatus(updatedSession.engineStatus || (metadata ? "ready" : "analyzing"));
       setEngineMetadata(metadata);
+      setEngineError(updatedSession.engineError || "");
       setSubtitleLang(metadata?.language || "");
       setCurrentSubtitle("");
       onSessionUpdate?.({
@@ -587,13 +668,28 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
             <video
               ref={videoRef}
               controls
+              controlsList="nodownload noremoteplayback"
+              disablePictureInPicture
+              draggable="false"
               className="video-player"
               src={session.videoUrl}
+              onContextMenu={(event) => event.preventDefault()}
               onPlay={handleVideoPlay}
               onPause={handleVideoPause}
               onSeeked={handleVideoSeeked}
               onTimeUpdate={updateSubtitle}
             />
+
+            <div className="video-watermark" aria-hidden="true">
+              {session.currentUserName || "Invite"} · {session.code}
+            </div>
+
+            {isVideoShielded && (
+              <div className="video-shield">
+                <strong>Lecture protégée</strong>
+                <span>Revenez sur la fenêtre pour afficher la vidéo.</span>
+              </div>
+            )}
 
             {currentSubtitle && (
               <div className="watch-subtitle">{currentSubtitle}</div>
@@ -697,6 +793,36 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
 
                 <p>{engineMetadata.summary || "Aucun résumé disponible."}</p>
 
+                <div className="transcript-panel">
+                  <h3>Transcription</h3>
+                  <p>
+                    {engineMetadata.transcript ||
+                      "Aucune transcription disponible pour cette video."}
+                  </p>
+                </div>
+
+                {engineMetadata.segments?.length ? (
+                  <div className="segments-panel">
+                    <h3>Segments horodates</h3>
+                    <div className="segments-list">
+                      {engineMetadata.segments.map((segment, index) => (
+                        <button
+                          key={`${segment.start}-${index}`}
+                          className="segment-btn"
+                          onClick={() => {
+                            if (videoRef.current) {
+                              videoRef.current.currentTime = segment.start;
+                            }
+                          }}
+                        >
+                          <span>{Math.floor(segment.start / 60)}:{String(Math.floor(segment.start % 60)).padStart(2, "0")}</span>
+                          <strong>{textForSegment(segment, subtitleLang)}</strong>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ) : null}
+
                 {engineMetadata.chapters?.length ? (
                   <div className="chapter-list">
                     {engineMetadata.chapters.map((chapter, index) => (
@@ -718,6 +844,8 @@ export default function WatchRoom({ session, onBack, onSessionUpdate }) {
               <p>
                 {engineStatus === "failed"
                   ? engineError || "L'analyse a échoué. Vérifiez que l'engine tourne et que le disque a assez d'espace."
+                  : engineStatus === "analyzing"
+                    ? "Analyse IA en cours. Vous pouvez continuer à regarder la vidéo."
                   : "Lancez l'analyse pour générer transcription, traductions et chapitres."}
               </p>
             )}

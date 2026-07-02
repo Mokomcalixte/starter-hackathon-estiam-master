@@ -123,30 +123,71 @@ export class SessionsService {
     await db.run(
       `
       UPDATE sessions
-      SET engineStatus = ?, engineVideoId = ?, engineMetadata = ?
+      SET engineStatus = ?, engineVideoId = ?, engineMetadata = ?, engineError = ?
       WHERE code = ?
       `,
       'ready',
       metadata?.id ?? '',
       JSON.stringify(metadata),
+      '',
       code,
     )
 
     return this.findByCode(code)
   }
 
-  async markEngineAnalysisFailed(code: string) {
+  async markEngineAnalysisStarted(code: string) {
     const db = await initDatabase()
 
     await db.run(
       `
       UPDATE sessions
-      SET engineStatus = ?
+      SET engineStatus = ?, engineError = ?
+      WHERE code = ?
+      `,
+      'analyzing',
+      '',
+      code,
+    )
+
+    return this.findByCode(code)
+  }
+
+  async markEngineAnalysisFailed(code: string, error?: unknown) {
+    const db = await initDatabase()
+
+    await db.run(
+      `
+      UPDATE sessions
+      SET engineStatus = ?, engineError = ?
       WHERE code = ?
       `,
       'failed',
+      this.normalizeEngineError(error),
       code,
     )
+  }
+
+  private normalizeEngineError(error?: unknown) {
+    if (!error) return ''
+    if (error instanceof Error) return error.message
+
+    if (typeof error === 'object') {
+      const payload = error as { response?: unknown; message?: unknown }
+
+      if (typeof payload.message === 'string') {
+        return payload.message
+      }
+
+      if (payload.response && typeof payload.response === 'object') {
+        const response = payload.response as { message?: unknown }
+        if (typeof response.message === 'string') {
+          return response.message
+        }
+      }
+    }
+
+    return String(error)
   }
 
   async deleteAll() {
