@@ -16,11 +16,11 @@ import { UsersService } from './users.service'
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET ?? 'dev-secret-change-me',
-      signOptions: { expiresIn: (process.env.JWT_TTL ?? '15m') as StringValue }, // token volontairement court
+      signOptions: { expiresIn: (process.env.JWT_TTL ?? '1m') as StringValue }, // token volontairement court
     }),
   ],
   controllers: [AuthController],
   providers: [AuthService, UsersService, AuthGuard],
   exports: [AuthGuard, JwtModule],
 })
-export class AuthModule {}
+export class AuthModule { }

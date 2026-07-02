@@ -156,6 +156,12 @@ export class AntiFraudService implements OnModuleInit {
     const cleanIp = this.normalizeIp(ip)
     if (!cleanIp) return false
 
+    // Whitelist des IPs locales/privées (souvent bloquées par FireHOL niveau 1)
+    const privateCidrs = ['127.0.0.0/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16']
+    for (const cidr of privateCidrs) {
+      if (this.ipMatchesCidr(cleanIp, cidr)) return false
+    }
+
     for (const cidr of this.suspiciousCidrs) {
       if (this.ipMatchesCidr(cleanIp, cidr)) return true
     }
